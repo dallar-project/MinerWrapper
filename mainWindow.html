@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dallar</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">-->
+    <link href="assets/stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <nav>
+        <div style="text-align: center">
+            <img src="assets/icons/png/icon.png" style="width:100px;height:100px;" ></img>
+        </div>
+    </nav>
+    <div class="wrapper" id="system:info">
+        
+        <div class="grid grid1" id="systemInfoCpu">
+            System CPU
+            <ul>
+                <strong>Manufacturer:</strong><br><li id="systemInfoCpuManufacturer"></li>
+                <strong>Brand:</strong><br><li id="systemInfoCpuBrand"></li>
+                <strong>Cores:</strong><br><li id="systemInfoCpuCores"></li>
+            </ul>
+        </div>
+        <div class="grid grid2" id="systemInfoGraphics">
+                System Graphics
+                <ul>
+                    <strong>Vendor:</strong><br><li id="systemInfoGraphicsVendor"></li>
+                    <strong>Model:</strong><br><li id="systemInfoGraphicsModel"></li>
+                    <strong>VRAM:</strong><br><li id="systemInfoGraphicsVram"></li>
+                </ul>
+        </div>
+        <div class="grid grid3" id="systemInfoNetworkInterfaces">
+            System Network
+            <ul>
+                <strong>Iface:</strong><br><li id="systemInfoNetworkInterfacesIface"></li>
+                <strong>MAC: </strong><br><li id="systemInfoNetworkInterfacesMac"></li>
+                <strong>IP:</strong><br><li id="systemInfoNetworkInterfacesIp"></li>
+            </ul>
+        </div>
+        <div class="grid grid4" id="poolInfo">
+            Miner Pool
+            <form id="mining">
+                <div>
+                    Mining Settings
+                    <label >User: </label>
+                    <input type="text" id="miningUser" autofocus value="test">
+                    <label >User PassWord: </label>
+                    <input type="text" id="miningUserPw" autofocus value="test">
+    
+                    <label >Pool: </label>
+                    <input type="text" id="miningPool" value="stratum+tcp://pool.dallar.org:8080">
+                    
+                    <label >Algo: </label>
+                    <input type="text" id="miningAlgo" value="groestl">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div >
+            <strong>CPU Stats</strong><br> 
+        <div id="systemStatsCurrentLoadCpu"></div>
+        <div class="cpuCoreWrapper" id="systemStatsCurrentLoad">
+                    <div class="cpuCore cpuCore0" id="cpuCore0"><strong>Core 0</strong><br> <div id="systemStatsCurrentLoadCpuCore0"></div></div>
+                    <div class="cpuCore cpuCore1" id="cpuCore1"><strong>Core 1</strong><br> <div id="systemStatsCurrentLoadCpuCore1"></div></div>
+                    <div class="cpuCore cpuCore2" id="cpuCore2"><strong>Core 2</strong><br> <div id="systemStatsCurrentLoadCpuCore2"></div></div>
+                    <div class="cpuCore cpuCore3" id="cpuCore3"><strong>Core 3</strong><br> <div id="systemStatsCurrentLoadCpuCore3"></div></div>
+                    <div class="cpuCore cpuCore4" id="cpuCore4"><strong>Core 4</strong><br> <div id="systemStatsCurrentLoadCpuCore4"></div></div>
+                    <div class="cpuCore cpuCore5" id="cpuCore5"><strong>Core 5</strong><br> <div id="systemStatsCurrentLoadCpuCore5"></div></div>
+                    <div class="cpuCore cpuCore6" id="cpuCore6"><strong>Core 6</strong><br> <div id="systemStatsCurrentLoadCpuCore6"></div></div>
+                    <div class="cpuCore cpuCore7" id="cpuCore7"><strong>Core 7</strong><br> <div id="systemStatsCurrentLoadCpuCore7"></div></div>
+
+                    <strong>Avg Load: </strong><br><div id="systemStatsCurrentLoadCpuAvg"></div>
+                </ul>
+        </div>
+    </div>
+    <ul ></ul>
+    <div class="wrapper " style="grid-template-rows: auto; " >
+        <div class="grid2" style="margin:auto;">
+            <form  id="startMining">
+                    <button class="btn success" type="submit">Start Mining</button>
+            </form>
+        </div>
+        <div class="grid3" style="margin:auto;">
+            <form  id="stopMining">
+                <button class="btn danger" type="submit">Stop Mining</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const startMining = document.querySelector('#startMining');
+        startMining.addEventListener('submit', submitForm);
+
+        var miningData = [  
+            document.querySelector('#miningUser').value.toString(),
+            document.querySelector('#miningPool').value.toString(),
+            document.querySelector('#miningAlgo').value.toString(),
+            document.querySelector('#miningUserPw').value.toString()
+        ];
+        function submitForm(e){
+            e.preventDefault();
+            ipcRenderer.send('startMining',miningData);
+        }
+    </script>
+
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        const ul = document.querySelector('ul');
+        const br = document.createElement('br');
+        var cpuCores = 0;
+        //https://www.npmjs.com/package/systeminformation
+        //add systemInfoCpu
+        ipcRenderer.on('systemInfoCpu', function(e, data){
+            var container = document.getElementById('systemInfoCpuManufacturer');
+            var itemText = document.createTextNode(data.manufacturer); container.appendChild(itemText);
+            container = document.getElementById('systemInfoCpuBrand');itemText = document.createTextNode(data.brand); container.appendChild(itemText);
+            container = document.getElementById('systemInfoCpuCores');itemText = document.createTextNode(data.cores); container.appendChild(itemText); cpuCores = data.cores; 
+        });
+        //add systemInfoGraphics 
+        ipcRenderer.on('systemInfoGraphics', function(e, data){
+            var container = document.getElementById('systemInfoGraphicsVendor');
+            var itemText = document.createTextNode(data.controllers[0].vendor); container.appendChild(itemText);
+            container = document.getElementById('systemInfoGraphicsModel'); itemText = document.createTextNode(data.controllers[0].model); container.appendChild(itemText);
+            container = document.getElementById('systemInfoGraphicsVram'); itemText = document.createTextNode(data.controllers[0].vram + ' Mb'); container.appendChild(itemText);
+        });
+        //add systemInfoNetworkInterfaces
+        ipcRenderer.on('systemInfoNetworkInterfaces', function(e, data){
+            var container = document.getElementById('systemInfoNetworkInterfacesIface');
+            var itemText = document.createTextNode(data[0].iface); container.appendChild(itemText);
+            container = document.getElementById('systemInfoNetworkInterfacesMac'); itemText = document.createTextNode(data[0].mac); container.appendChild(itemText);
+            container = document.getElementById('systemInfoNetworkInterfacesIp'); itemText = document.createTextNode(data[0].ip4); container.appendChild(itemText);
+        });
+        //update systemStatsCurrentLoad
+        ipcRenderer.on('systemStatsCurrentLoad', function(e, data){
+            var container = document.getElementById('systemStatsCurrentLoadCpu');
+            container.innerHTML = '<strong>CPU Load: </strong>' + data.currentload.toFixed(2).toString() + '%';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore0'); container.innerHTML = data.cpus[0].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore0').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[0].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore1'); container.innerHTML = data.cpus[1].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore1').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[1].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore2'); container.innerHTML = data.cpus[2].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore2').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[2].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore3'); container.innerHTML = data.cpus[3].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore3').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[3].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore4'); container.innerHTML = data.cpus[4].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore4').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[4].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore5'); container.innerHTML = data.cpus[5].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore5').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[5].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore6'); container.innerHTML = data.cpus[6].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore6').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[6].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuCore7'); container.innerHTML = data.cpus[7].load.toFixed(2).toString() + '%';
+            document.getElementById('cpuCore7').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[7].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCurrentLoadCpuAvg'); container.innerHTML= data.avgload.toFixed(2).toString() + '%';
+        });
+
+        //add item system:info
+        ipcRenderer.on('item:add', function(e, item){
+            ul.className = 'collection'
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);
+        });
+
+        //clear items
+        ipcRenderer.on('item:clear', function(){
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+
+        //remove item
+        ul.addEventListener('dblclick', removeItem)
+        function removeItem(e){
+            e.target.remove();
+            if(ul.children == 0){
+                ul.className = '';
+            };
+        };
+    </script>
+</body>
+</html>

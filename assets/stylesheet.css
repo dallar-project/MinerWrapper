@@ -1,0 +1,95 @@
+
+body {
+    color: black;
+}
+li{
+	list-style: none;
+}
+.cpuCoreWrapper{
+	display: grid;
+  	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  	grid-template-rows: 60px;
+  	grid-gap: 10px;
+	grid-template-areas:
+        "cpuCore0 cpuCore1 cpuCore2 cpuCore3 cpuCore4 cpuCore5 cpuCore6 cpuCore7";
+}
+.cpuCore{
+	border-width:thin;
+    border-style: solid;
+    border-color: black;
+    text-align: center;
+}
+
+.cpuCore0{
+	grid-area: cpuCore0;
+}
+.cpuCore1{
+	grid-area: cpuCore1;
+}
+.cpuCore2{
+	grid-area: cpuCore2;
+}
+.cpuCore3{
+	grid-area: cpuCore3;
+}
+.cpuCore4{
+	grid-area: cpuCore4;
+}
+.cpuCore5{
+	grid-area: cpuCore5;
+}
+.cpuCore6{
+	grid-area: cpuCore6;
+}
+.cpuCore7{
+	grid-area: cpuCore7;
+}
+
+.wrapper{
+    background-color:white;
+	display: grid;
+  	grid-template-columns: 1fr 1fr 1fr 1fr;
+  	grid-template-rows: 200px;
+  	grid-gap: 10px;
+	grid-template-areas:
+        "grid1 grid2 grid3 grid4";
+}
+.grid{
+	border-width:thin;
+    border-style: solid;
+    border-color: black;
+}
+.grid1{
+	grid-area: grid1;
+}
+.grid2{
+	grid-area: grid2;
+}
+.grid3{
+	grid-area: grid3;
+}
+.grid4{
+	grid-area: grid4;
+}
+
+.btn {
+    border: none; /* Remove borders */
+    color: white; /* Add a text color */
+    padding: 14px 28px; /* Add some padding */
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+}
+
+.success {background-color: #4CAF50;} /* Green */
+.success:hover {background-color: #46a049;}
+
+.info {background-color: #2196F3;} /* Blue */
+.info:hover {background: #0b7dda;}
+
+.warning {background-color: #ff9800;} /* Orange */
+.warning:hover {background: #e68a00;}
+
+.danger {background-color: #f44336;} /* Red */ 
+.danger:hover {background: #da190b;}
+
+.default {background-color: #e7e7e7; color: black;} /* Gray */ 
+.default:hover {background: #ddd;}

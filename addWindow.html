@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add item</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+</head>
+<body>
+    <div class="container">
+        <form id="mining">
+            <div>
+                Mining Settings
+                <label >User: </label>
+                <input type="text" id="miningUser" autofocus>
+
+                <label >Pool: </label>
+                <input type="text" id="miningPool">
+                
+                <label >Algo: </label>
+                <input type="text" id="miningAlgo">
+                
+            </div>
+            <button class="btn waves-effect waves-light" type="submit">add Item</button>
+        </form>
+    </div>
+
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        
+        const form = document.querySelector('#mining');
+        form.addEventListener('submit', submitForm);
+
+        function submitForm(e){
+            e.preventDefault();
+            var miningData = [  
+                document.querySelector('#miningUser').value.toString(),
+                document.querySelector('#miningPool').value.toString(),
+                document.querySelector('#miningAlgo').value.toString()
+                document.querySelector('#miningUserPw').value.toString()
+            ];
+            ipcRenderer.send('mining', miningData);
+        }
+    </script>
+</body>
+</html>
