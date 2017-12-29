@@ -1,7 +1,7 @@
 # MinerWrapper
 ----------
 
-A Miner Wrapper for GPU: NIVIDA,AMD and CPU support For mining Dallar 
+A Miner Wrapper for GPU: NIVIDA, AMD and CPU support For mining Dallar 
 
 This Wrapper incorprates
 
@@ -9,9 +9,20 @@ Windows Miners
 
  - NVIDIA(Cuda)
 	 - x32 arch
-		 - [CCminer is using tpruvot](https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x86-2.2.3-cuda9.7z)
+		 - [CCminer is using tpruvot (2.2.3)](https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x86-2.2.3-cuda9.7z)
 	 - x64 arch
-		 - [CCminer is using tpruvot](https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x64-2.2.3-cuda9.7z)
+		 - [CCminer is using tpruvot (2.2.3)](https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x64-2.2.3-cuda9.7z)
+
+CPU miners
+    - Core 2 
+        - x32 arch
+        - x64 arch
+    - Core i7 
+        - x32 arch
+        - x64 arch
+    - Core avx 
+        - x32 arch
+        - x64 arch
 
 Using Node.js
 Written using [VS Code](https://code.visualstudio.com/)
@@ -30,12 +41,7 @@ Developers:
 
 To do:
 
-Windows Miners
-
- - CPU miner
- - AMD 
-	 - x32 arch
-	 - x64 arch
+GET THE GUI TO LOOK BETTER!
 
 Linux Miners
   
