@@ -5,7 +5,8 @@ const pathWinCpuMinerX64 = 'https://github.com/tpruvot/cpuminer-multi/releases/d
 
 var gpuMinerPath = '',cpuMinerPath ='';
 
-
+const scanf = require('scanf');
+const sscanf = require('scanf').sscanf;
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
@@ -201,7 +202,7 @@ function getSystemStats(){
         .catch(error => console.error(error)); 
     si.cpuTemperature()
         .then(data => { 
-            mainWindow.webContents.send('systemStatsCpuTemp', data);
+            //mainWindow.webContents.send('systemStatsCpuTemp', data);
             //console.log(data);
         })
         .catch(error => console.error(error)); 
@@ -219,17 +220,8 @@ ipcMain.on('startMining', function(e,miningData){
     const miningDevice = miningData[4];
     const cpuCoreSlider = miningData[5];
 
-    console.log('Start Mining ');
     //runs ccminer through CMD
-    
 
-    console.log(miningData);
-
-    //async with cmd output data
-    var dataCallback = function(data) {
-        console.log(data);
-    };
-    
     if ( miningDevice == 'GPU'){
         console.log(__dirname+'/miners/ccminer/' + gpuMinerPath +  ' -a '+ miningAlgo +' -o '+ miningPool + ' -u ' + miningUser + ' -p ' + miningUserPw);
         nrc.run(gpuMinerPath+ ' -a '+ miningAlgo +' -o '+ miningPool + ' -u ' + miningUser + ' -p ' + miningUserPw + '',    { cwd: __dirname+'/miners/ccminer/', onData: dataCallback });    
@@ -239,7 +231,32 @@ ipcMain.on('startMining', function(e,miningData){
         nrc.run(cpuMinerPath+ ' -a '+ miningAlgo +' -o '+ miningPool + ' -u ' + miningUser + ' -p ' + miningUserPw + ' -t ' + cpuCoreSlider +' --no-color',  { cwd: __dirname+'/miners/cpuminer/', onData: dataCallback });    
     }
 
-    
+    //async with cmd output data
+    var dataCallback = function(data) {
+
+
+        console.log(data);
+
+        //parse output for CPUminer
+        var timestamp = sscanf(data.toString(),'[%d-%d-%d %d:%d:%d]');//year,month,day hour:miunte:second
+            //console.log(timestamp);
+        var message = data.slice(data.search("]")+2)
+           // console.log(message);
+        
+           // message = stdout with out timestamp
+        if (message.search("CPU") !== -1){
+            var cpuHash = sscanf(message.toString(),'CPU #%d: %f %s');
+            mainWindow.webContents.send('miningStatsCpuHash', cpuHash);
+                //console.log(cpuHash);
+        }
+        if (message.search("Stratum difficulty") !== -1){
+            var stratumDiff = sscanf(message.toString(),'Stratum difficulty set to %d (%f)');
+            mainWindow.webContents.send('miningStatsStratumDiff', stratumDiff);
+                //console.log(stratumDiff);
+        }
+
+
+    };
 });
 
 // create menu template
@@ -325,16 +342,16 @@ function downloadFromInternet(url, dest,filename, cb) {
     sendReq.pipe(file);
 
     file.on('finish', function() {
-        file.close()// close() is async, call cb after close completes.
+        file.close(cb)// close() is async, call cb after close completes.
             .then(data => {  
                 mainWindow.webContents.send('systemInfoNetworkInterfaces', data);
             })
             .catch(error => console.error(error)); 
+        
         unzip(dest+filename, dest, err => {
-            
             console.log('finished unziping');
             fs.unlink(dest+filename);//remove zip
-          })
+        })
     });
 
     file.on('error', function(err) { // Handle errors

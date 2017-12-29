@@ -19,6 +19,7 @@
     "cross-unzip": "^0.2.1",
     "electron": "^1.7.10",
     "node-run-cmd": "^1.0.1",
+    "scanf": "^1.0.0",
     "systeminformation": "^3.33.12",
     "win-7zip": "^0.1.1"
   },

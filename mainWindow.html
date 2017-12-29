@@ -66,7 +66,7 @@
         <div>
             <form id="cpuDeviceSettings" style="visibility: visble;">
                 <div style="width:50%" class="grid">
-                    <label>Number of Cores/Threads to use:<br> Recommended is 2*cores </label> 
+                    <label>Number of Cores/Threads to use:<br> Recommended is half when Idle <br> </label> 
                         <input type="range" onchange="updateThread(this.value)" min="1" max="2" value="1" class="slider" id="cpuThreadSlider" >
                         <input type="number" onchange="updateThread(this.value)" value="1" id="cpuThreadSliderValue" style="width: 40px; height: 100%;">
                 </div>
@@ -103,9 +103,38 @@
         </script>
     </div>
     <br><br><br>
+    <div>
+            <div style="text-align:center"><strong >Mining Stats</strong><br><br></div>
+
+
+            <strong>Stratum Difficulty: </strong><br>
+            <div class="cpuCore cpuTemp"><strong>Stratum Difficulty set to:</strong><br> 
+                <div id="miningStatsStratDiff"></div>
+            </div>
+            <br>
+            <strong>Hash Rates: </strong><br>
+            <div class="cpuCore cpuTemp" id="cpuHash"><strong>CPU Hash:</strong><br> 
+                <div id="miningStatsCpuHash"></div>
+            </div>
+    
+            <div class="cpuCoreWrapper" >
+                    <div class="cpuCore cpuCore0" id="cpuCore0Hash"><strong>Core 0</strong><br> <div id="miningStatsCpuCore0Hash"></div></div>
+                    <div class="cpuCore cpuCore1" id="cpuCore1Hash"><strong>Core 1</strong><br> <div id="miningStatsCpuCore1Hash"></div></div>
+                    <div class="cpuCore cpuCore2" id="cpuCore2Hash"><strong>Core 2</strong><br> <div id="miningStatsCpuCore2Hash"></div></div>
+                    <div class="cpuCore cpuCore3" id="cpuCore3Hash"><strong>Core 3</strong><br> <div id="miningStatsCpuCore3Hash"></div></div>
+                    <div class="cpuCore cpuCore4" id="cpuCore4Hash"><strong>Core 4</strong><br> <div id="miningStatsCpuCore4Hash"></div></div>
+                    <div class="cpuCore cpuCore5" id="cpuCore5Hash"><strong>Core 5</strong><br> <div id="miningStatsCpuCore5Hash"></div></div>
+                    <div class="cpuCore cpuCore6" id="cpuCore6Hash"><strong>Core 6</strong><br> <div id="miningStatsCpuCore6Hash"></div></div>
+                    <div class="cpuCore cpuCore7" id="cpuCore7Hash"><strong>Core 7</strong><br> <div id="miningStatsCpuCore7Hash"></div></div>
+    
+                </ul>
+            </div>
+    </div>
+    <br><br>
     <div >
-            <strong>CPU Stats</strong><br><br> 
-        
+            <div style="text-align:center"><strong>CPU Stats</strong><br><br> </div>
+
+       
         <strong>Temperature: </strong><br>
         <div class="cpuCore cpuTemp" id="cpuTemp"><strong>CPU Temperature:</strong><br> 
             <div id="systemStatsCpuTemp"></div>
@@ -122,7 +151,7 @@
 
             </ul>
         </div>
-
+        <br>
         <strong>Usage: </strong><br>
         <div class="cpuCore cpuTemp" id="cpuTemp"><strong>CPU Load:</strong><br>
             <div id="systemStatsCurrentLoadCpu"></div>
@@ -195,6 +224,7 @@
             container = document.getElementById('systemInfoGraphicsModel'); itemText = document.createTextNode(data.controllers[0].model); container.appendChild(itemText);
             container = document.getElementById('systemInfoGraphicsVram'); itemText = document.createTextNode(data.controllers[0].vram + ' Mb'); container.appendChild(itemText);
         });
+
         //add systemInfoNetworkInterfaces
         ipcRenderer.on('systemInfoNetworkInterfaces', function(e, data){
             var container = document.getElementById('systemInfoNetworkInterfacesIface');
@@ -202,49 +232,53 @@
             container = document.getElementById('systemInfoNetworkInterfacesMac'); itemText = document.createTextNode(data[0].mac); container.appendChild(itemText);
             container = document.getElementById('systemInfoNetworkInterfacesIp'); itemText = document.createTextNode(data[0].ip4); container.appendChild(itemText);
         });
+
+        //update miningStatsCpuHash
+        ipcRenderer.on('miningStatsCpuHash', function(e, data){
+            var container = document.getElementById('miningStatsCpuHash');
+            container.innerHTML =  'to do ' + data[2].toString();
+
+            var id = ['miningStatsCpuCore', data[0].toString(), 'Hash'];
+            id = id.join('');
+            var container = document.getElementById(id); //systemStatsCpuCore0Hash
+            container.innerHTML = data[1].toString() + data[2].toString();
+        });
+
+        //update miningStatsStratumDiff
+        ipcRenderer.on('miningStatsStratumDiff', function(e, data){
+            var container = document.getElementById('miningStatsStratDiff');
+            container.innerHTML =  data[0].toString() + ' (' + data[1].toString() + ')';
+
+        });
+
         //update systemStatsCurrentLoad
         ipcRenderer.on('systemStatsCurrentLoad', function(e, data){
             var container = document.getElementById('systemStatsCurrentLoadCpu');
             container.innerHTML =  data.currentload.toFixed(2).toString() + '%';
             container.style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.currentload.toFixed(2)).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore0'); container.innerHTML = data.cpus[0].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore0').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[0].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore1'); container.innerHTML = data.cpus[1].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore1').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[1].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore2'); container.innerHTML = data.cpus[2].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore2').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[2].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore3'); container.innerHTML = data.cpus[3].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore3').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[3].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore4'); container.innerHTML = data.cpus[4].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore4').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[4].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore5'); container.innerHTML = data.cpus[5].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore5').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[5].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore6'); container.innerHTML = data.cpus[6].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore6').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[6].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCurrentLoadCpuCore7'); container.innerHTML = data.cpus[7].load.toFixed(2).toString() + '%';
-            document.getElementById('cpuCore7').style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[7].load).toString() + '%, #F00 100%)';
+
+
+            for (i = 0; i < cpuCores;i++){
+                var id = ['cpuCore', i]; id = id.join('');
+                document.getElementById(id).style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[i].load).toString() + '%, #F00 100%)';
+                id = ['systemStatsCurrentLoadCpuCore', i]; id = id.join('');
+                container = document.getElementById(id); container.innerHTML = data.cpus[i].load.toFixed(2).toString() + '%';
+            }   
         });
         //update systemStatsCpuTemp
         ipcRenderer.on('systemStatsCpuTemp', function(e, data){
             var container = document.getElementById('systemStatsCpuTemp');
-            container.innerHTML = '<strong>CPU Temp: </strong>' + data.currentload.toFixed(2).toString() + 'C';
+            container.innerHTML = '<strong>CPU Temp: </strong>' + data.main.toFixed(2).toString() + 'C';
             container.style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.main).toString() + 'C, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore0Temp'); container.innerHTML = data.cores[0].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore0Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[0].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore1Temp'); container.innerHTML = data.cores[1].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore1Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[1].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore2Temp'); container.innerHTML = data.cores[2].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore2Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[2].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore3Temp'); container.innerHTML = data.cores[3].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore3Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[3].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore4Temp'); container.innerHTML = data.cores[4].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore4Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[4].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore5Temp'); container.innerHTML = data.cores[5].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore5Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[5].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore6Temp'); container.innerHTML = data.cores[6].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore6Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[6].load).toString() + '%, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore7Temp'); container.innerHTML = data.cores[7].toFixed(2).toString() + 'C';
-            document.getElementById('cpuCore7Temp').style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[7].load).toString() + '%, #F00 100%)';
+            container = document.getElementById('systemStatsCpuCore0Temp'); container.innerHTML = data.main.toFixed(2).toString() + 'C';
+
+            for (i = 0; i < cpuCores;i++){
+                var id = ['cpuCore', i,'Temp']; id = id.join('');
+                document.getElementById(id).style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[i].load).toString() + '%, #F00 100%)';
+                id = ['systemStatsCpuCore', i,'Temp']; id = id.join('');
+                container = document.getElementById(id); container.innerHTML = data.cores[i].toFixed(2).toString() + '%';
+            }   
+
         });
         //add item system:info
         ipcRenderer.on('item:add', function(e, item){
