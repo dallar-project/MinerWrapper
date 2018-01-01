@@ -13,9 +13,9 @@ Windows Miners
 		 - [CCminer is using tpruvot (2.2.3)](https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x64-2.2.3-cuda9.7z)
 
 CPU miners
- - Core 2
- - Core i7
- - avx2
+ - [Core 2 (1.3.1)](https://github.com/tpruvot/cpuminer-multi/releases)
+ - [Core i7 (1.3.1)](https://github.com/tpruvot/cpuminer-multi/releases)
+ - [avx2 (1.3.1)](https://github.com/tpruvot/cpuminer-multi/releases)
 
 Using Node.js
 Written using [VS Code](https://code.visualstudio.com/)

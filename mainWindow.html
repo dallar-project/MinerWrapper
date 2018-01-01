@@ -1,309 +1,914 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Dallar</title>
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">-->
-    <link href="assets/stylesheet.css" rel="stylesheet" type="text/css">
+<title>Untitled Document</title>
+
+<link href="assets/styleSheet.css" rel="stylesheet" type="text/css">
+
+<script>window.$ = window.jQuery = require('./assets/jquery-3.2.1.js');</script>
+
 </head>
 <body>
-    <nav>
-        <div style="text-align: center">
-            <img src="assets/icons/png/icon.png" style="width:100px;height:100px;" ></img>
-        </div>
-    </nav>
-    <div class="wrapper" id="system:info">
+<div class="container">
+    <div class="grid-cl-header">Miner for Dallar</div>
+    
+    <div class="grid-cl-main">
+        <!--consist of 8 columns-->
         
-        <div class="grid grid1" id="systemInfoCpu">
-            System CPU
-            <ul>
-                <strong>Manufacturer:</strong><br><li id="systemInfoCpuManufacturer"></li>
-                <strong>Brand:</strong><br><li id="systemInfoCpuBrand"></li>
-                <strong>Cores:</strong><br><li id="systemInfoCpuCores"></li>
-            </ul>
+        <div class="grid-cl-chooseDevice" >
+            <div class="grid-cl-chooseDeviceCpu btn " value="CPU">CPU</div>
+            <div class="grid-cl-chooseDeviceGpu btn" value="GPU">GPU</div>
         </div>
-        <div class="grid grid2" id="systemInfoGraphics">
-                System Graphics
-                <ul>
-                    <strong>Vendor:</strong><br><li id="systemInfoGraphicsVendor"></li>
-                    <strong>Model:</strong><br><li id="systemInfoGraphicsModel"></li>
-                    <strong>VRAM:</strong><br><li id="systemInfoGraphicsVram"></li>
-                </ul>
-        </div>
-        <div class="grid grid3" id="systemInfoNetworkInterfaces">
-            System Network
-            <ul>
-                <strong>Iface:</strong><br><li id="systemInfoNetworkInterfacesIface"></li>
-                <strong>MAC: </strong><br><li id="systemInfoNetworkInterfacesMac"></li>
-                <strong>IP:</strong><br><li id="systemInfoNetworkInterfacesIp"></li>
-            </ul>
-        </div>
-        <div class="grid grid4" id="poolInfo">
-            Miner Pool
-            <form id="mining">
-                <div>
-                    Mining Settings
-                    <label >User: </label>
-                        <input type="text" id="miningUser" style="width: 100%;" autofocus value="Lern5ErqdGcBJW42Je4szXVhpbgtwLVvJA ">
-                    <label >User PassWord: </label>
-                        <input type="text" id="miningUserPw" style="width: 100%;" value="x">
-                    <label >Pool: </label>
-                        <input type="text" id="miningPool" style="width: 100%;" value="stratum+tcp://ltc.poolmining.org:3042">
-                    <label >Algo: </label>
-                        <input type="text" id="miningAlgo" style="width: 100%;" value="scrypt">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div  id="chooseDevice">
-        Device to Use: 
-        <form>
-            <input type="radio" name="miningDevice" onchange="hideGpuDeviceSettings(this)" value="CPU" checked>CPU<br>
-            <input type="radio" name="miningDevice" onchange="hideCpuDeviceSettings(this)" value="GPU" > GPU<br>
-        </form> 
-    </div>
-    
-    <div id="DeviceSettings">
-        <div>
-            <form id="cpuDeviceSettings" style="visibility: visble;">
-                <div style="width:50%" class="grid">
-                    <label>Number of Cores/Threads to use:<br> Recommended is half when Idle <br> </label> 
-                        <input type="range" onchange="updateThread(this.value)" min="1" max="2" value="1" class="slider" id="cpuThreadSlider" >
-                        <input type="number" onchange="updateThread(this.value)" value="1" id="cpuThreadSliderValue" style="width: 40px; height: 100%;">
-                </div>
-                <script>
-                    function updateThread(val){
-                        
-                        document.getElementById("cpuThreadSlider").value = val;
-                        document.getElementById("cpuThreadSliderValue").value = val;
-                    }
-                </script>
-            </form>  
-        </div>
-
-        <div class="clearfix:after"></div>
-
-        <div>
-            <form id="gpuDeviceSettings" style="visibility: hidden;">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-            </form> 
-        </div>
-
-        <script>
-            function hideCpuDeviceSettings(x) {
-                if (x.checked) {
-                    document.getElementById("cpuDeviceSettings").style.visibility = "hidden";
-                    document.getElementById("gpuDeviceSettings").style.visibility = "visible";
-                }
-            }function hideGpuDeviceSettings(x) {
-                if (x.checked) {
-                    document.getElementById("gpuDeviceSettings").style.visibility = "hidden";
-                    document.getElementById("cpuDeviceSettings").style.visibility = "visible";
-                }
-            }
-        </script>
-    </div>
-    <br><br><br>
-    <div>
-            <div style="text-align:center"><strong >Mining Stats</strong><br><br></div>
-
-
-            <strong>Stratum Difficulty: </strong><br>
-            <div class="cpuCore cpuTemp"><strong>Stratum Difficulty set to:</strong><br> 
-                <div id="miningStatsStratDiff"></div>
-            </div>
-            <br>
-            <strong>Hash Rates: </strong><br>
-            <div class="cpuCore cpuTemp" id="cpuHash"><strong>CPU Hash:</strong><br> 
-                <div id="miningStatsCpuHash"></div>
-            </div>
-    
-            <div class="cpuCoreWrapper" >
-                    <div class="cpuCore cpuCore0" id="cpuCore0Hash"><strong>Core 0</strong><br> <div id="miningStatsCpuCore0Hash"></div></div>
-                    <div class="cpuCore cpuCore1" id="cpuCore1Hash"><strong>Core 1</strong><br> <div id="miningStatsCpuCore1Hash"></div></div>
-                    <div class="cpuCore cpuCore2" id="cpuCore2Hash"><strong>Core 2</strong><br> <div id="miningStatsCpuCore2Hash"></div></div>
-                    <div class="cpuCore cpuCore3" id="cpuCore3Hash"><strong>Core 3</strong><br> <div id="miningStatsCpuCore3Hash"></div></div>
-                    <div class="cpuCore cpuCore4" id="cpuCore4Hash"><strong>Core 4</strong><br> <div id="miningStatsCpuCore4Hash"></div></div>
-                    <div class="cpuCore cpuCore5" id="cpuCore5Hash"><strong>Core 5</strong><br> <div id="miningStatsCpuCore5Hash"></div></div>
-                    <div class="cpuCore cpuCore6" id="cpuCore6Hash"><strong>Core 6</strong><br> <div id="miningStatsCpuCore6Hash"></div></div>
-                    <div class="cpuCore cpuCore7" id="cpuCore7Hash"><strong>Core 7</strong><br> <div id="miningStatsCpuCore7Hash"></div></div>
-    
-                </ul>
-            </div>
-    </div>
-    <br><br>
-    <div >
-            <div style="text-align:center"><strong>CPU Stats</strong><br><br> </div>
-
-       
-        <strong>Temperature: </strong><br>
-        <div class="cpuCore cpuTemp" id="cpuTemp"><strong>CPU Temperature:</strong><br> 
-            <div id="systemStatsCpuTemp"></div>
-        </div>
-        <div class="cpuCoreWrapper" id="systemStatsCurrentLoad">
-                <div class="cpuCore cpuCore0" id="cpuCore0Temp"><strong>Core 0</strong><br> <div id="systemStatsCpuCore0Temp"></div></div>
-                <div class="cpuCore cpuCore1" id="cpuCore1Temp"><strong>Core 1</strong><br> <div id="systemStatsCpuCore1Temp"></div></div>
-                <div class="cpuCore cpuCore2" id="cpuCore2Temp"><strong>Core 2</strong><br> <div id="systemStatsCpuCore2Temp"></div></div>
-                <div class="cpuCore cpuCore3" id="cpuCore3Temp"><strong>Core 3</strong><br> <div id="systemStatsCpuCore3Temp"></div></div>
-                <div class="cpuCore cpuCore4" id="cpuCore4Temp"><strong>Core 4</strong><br> <div id="systemStatsCpuCore4Temp"></div></div>
-                <div class="cpuCore cpuCore5" id="cpuCore5Temp"><strong>Core 5</strong><br> <div id="systemStatsCpuCore5Temp"></div></div>
-                <div class="cpuCore cpuCore6" id="cpuCore6Temp"><strong>Core 6</strong><br> <div id="systemStatsCpuCore6Temp"></div></div>
-                <div class="cpuCore cpuCore7" id="cpuCore7Temp"><strong>Core 7</strong><br> <div id="systemStatsCpuCore7Temp"></div></div>
-
-            </ul>
-        </div>
-        <br>
-        <strong>Usage: </strong><br>
-        <div class="cpuCore cpuTemp" id="cpuTemp"><strong>CPU Load:</strong><br>
-            <div id="systemStatsCurrentLoadCpu"></div>
-        </div>
-        <div class="cpuCoreWrapper" id="systemStatsCurrentLoad">
-                    <div class="cpuCore cpuCore0" id="cpuCore0"><strong>Core 0</strong><br> <div id="systemStatsCurrentLoadCpuCore0"></div></div>
-                    <div class="cpuCore cpuCore1" id="cpuCore1"><strong>Core 1</strong><br> <div id="systemStatsCurrentLoadCpuCore1"></div></div>
-                    <div class="cpuCore cpuCore2" id="cpuCore2"><strong>Core 2</strong><br> <div id="systemStatsCurrentLoadCpuCore2"></div></div>
-                    <div class="cpuCore cpuCore3" id="cpuCore3"><strong>Core 3</strong><br> <div id="systemStatsCurrentLoadCpuCore3"></div></div>
-                    <div class="cpuCore cpuCore4" id="cpuCore4"><strong>Core 4</strong><br> <div id="systemStatsCurrentLoadCpuCore4"></div></div>
-                    <div class="cpuCore cpuCore5" id="cpuCore5"><strong>Core 5</strong><br> <div id="systemStatsCurrentLoadCpuCore5"></div></div>
-                    <div class="cpuCore cpuCore6" id="cpuCore6"><strong>Core 6</strong><br> <div id="systemStatsCurrentLoadCpuCore6"></div></div>
-                    <div class="cpuCore cpuCore7" id="cpuCore7"><strong>Core 7</strong><br> <div id="systemStatsCurrentLoadCpuCore7"></div></div>
-
-                </ul>
-        </div>
-    </div>
-    <ul ></ul>
-    <div class="wrapper " style="grid-template-rows: auto; " >
-        <div class="grid2" style="margin:auto;">
-            <form  id="startMining">
-                    <button class="btn success" type="submit">Start Mining</button>
-            </form>
-        </div>
-        <div class="grid3" style="margin:auto;">
-            <form  id="stopMining">
-                <button class="btn danger" onclick="updateMiningData()" type="submit">Stop Mining</button>
-            </form>
-        </div>
-    </div>
-    <script>
-
-        const startMining = document.querySelector('#startMining');
-        startMining.addEventListener('submit', submitForm);
         
-        function submitForm(e){
-            e.preventDefault();
+        <div class="grid-cl-miningSettings" >
+            <h1> Mining Settings</h1>
+            <div class="grid-cl-miningSettingsPool" >
+                <div class="grid-header">Mining Pool Settings</div>
+                <table  border="0" style="margin: 0px 5%; ">
+                <tr >
+                    <td ><label><strong>Pool:</strong></label></td>
+                    <td width="20px"></td><!--set the space between here-->
+                    <td><input type="text" name ="miningSettingsPool" value="stratum+tcp://vtc.poolmining.org:3096" style="width:300px;"></td><!-- set width here-->
+                </tr>
+                <tr>
+                    <td><label><strong>Username:</strong></label></td>
+                    <td></td>
+                    <td><input type="text" name ="miningSettingsUsername" value="VviPkfhDDidTJwZUgYjDfhXqBVjKjVTpVN" style="width:100%"></td>
+                </tr>
+                <tr>
+                    <td><label><strong>Password:</strong></label></td>
+                    <td></td>
+                    <td><input type="text" name ="miningSettingsPassword" value="d=8" style="width:100%"></td>
+                </tr>
+                <tr>
+                	<td><label><strong>CPU Algo: </strong></label></td>
+                    <td></td>
+                	<td><select  id="miningSettingsAlgoCPU" style="width:100%">
+                            <option value="axiom">Shabal-256 MemoHash</option>
+                            <option value="blake">Blake-256 14-rounds (SFR)</option>
+                            <option value="blakecoin">Blake-256 single sha256 merkle</option>
+                            <option value="blake2s">Blake2-S-256</option>
+                            <option value="bmw">BMW 256</option>
+                            <option value="c11/flax">C11</option>
+                            <option value="cryptolight">Cryptonight-light</option>
+                            <option value="cryptonight">Monero</option>
+                            <option value="decred">Blake-256 14-rounds (SFR) 180 bytes</option>
+                            <option value="dmd-gr">Diamond-Groestl</option>
+                            <option value="drop">Dropcoin</option>
+                            <option value="fresh">Fresh</option>
+                            <option value="groestl">GroestlCoin</option>
+                            <option value="heavy">Heavy</option>
+                            <option value="keccak">Keccak</option>
+                            <option value="luffa">Luffa</option>
+                            <option value="lyra2re">Lyra2RE</option>
+                            <option value="lyra2rev2">Lyra2REv2 (Vertcoin)</option>
+                            <option value="myr-gr">Myriad-Groestl</option>
+                            <option value="neoscrypt">NeoScrypt(128,2,1)</option>
+                            <option value="nist5">Nist5</option>
+                            <option value="pluck">Pluck:128 (Supcoin)</option>
+                            <option value="pentablake">Pentablake</option>
+                            <option value="quark">Quark</option>
+                            <option value="qubit">Qubit</option>
+                            <option value="scrypt" selected>scrypt(1024,1,1)</option>
+                            <option value="scrypt:N">scrypt(N,1,1)</option>
+                            <option value="scrypt-jane:N">(with N factor from 4 to 30)</option>
+                            <option value="shavite3">Shavite3</option>
+                            <option value="sha256d">SHA-256d</option>
+                            <option value="sia">Blake2-B</option>
+                            <option value="sib">X11+ gost (SibCoin)</option>
+                            <option value="skein">Skein+Sha (Skeincoin)</option>
+                            <option value="skein2">Double Skein (Woodcoin)</option>
+                            <option value="s3">S3</option>
+                            <option value="timetravel">Timetravel (Machinecoin)</option>
+                            <option value="vanilla">Blake-256 8-rounds</option>
+                            <option value="x11evo">Permuted x11</option>
+                            <option value="X11">X11</option>
+                            <option value="X13">X13</option>
+                            <option value="X14">X14</option>
+                            <option value="X15">X15</option>
+                            <option value="X17">X17</option>
+                            <option value="xevan">Xevan (BitSend)</option>
+                            <option value="yescrypt">Yescrypt</option>
+                            <option value="zr5">ZR5</option></select></td>
+                </tr>
+                <tr>
+                    <td><label><strong>GPU Algo: </strong></label></td>
+                    <td></td>
+                    <td><select id="miningSettingsAlgoGPU" style="width:100%">
+                        <option value="bastion">Hefty bastion</option>
+                            <option value="bitcore">Timetravel-10</option>
+                            <option value="blake">Blake 256 (SFR)<br>Blake2-S 256 (NEVA)</option>
+                            <option value="blakecoin">Fast Blake 256 (8 rounds)</option>
+                            <option value="bmw">BMW 256</option>
+                            <option value="cryptolight">AEON cryptonight (MEM/2)</option>
+                            <option value="cryptonight">XMR cryptonight</option>
+                            <option value="c11/flax">X11 variant</option>
+                            <option value="groestl" >Dallar</option>
+                            <option value="decred">Decred Blake256</option>
+                            <option value="deep">Deepcoin</option>
+                            <option value="equihash">Zcash Equihash</option>
+                            <option value="dmd-gr">Diamond-Groestl</option>
+                            <option value="fresh">Freshcoin (shavite 80)</option>
+                            <option value="fugue256">Fuguecoin</option>
+                            <option value="groestl">Groestlcoin</option>
+                            <option value="heavy">Heavycoin</option>
+                            <option value="hmq1725">Doubloons / Espers</option>
+                            <option value="jackpot">JHA v8</option>
+                            <option value="keccak">Deprecated Keccak-256</option>
+                            <option value="keccakc">Keccak-256 (CreativeCoin)</option>
+                            <option value="lbry">LBRY Credits (Sha/Ripemd)</option>
+                            <option value="luffa">Joincoin</option>
+                            <option value="lyra2">CryptoCoin</option>
+                            <option value="lyra2v2">VertCoin</option>
+                            <option value="lyra2z">ZeroCoin (3rd impl)</option>
+                            <option value="mjollnir">Mjollnircoin</option>
+                            <option value="myr-gr">Myriad-Groestl</option>
+                            <option value="neoscrypt">FeatherCoin, Phoenix, UFO...</option>
+                            <option value="nist5">NIST5 (TalkCoin)</option>
+                            <option value="penta">Pentablake hash (5x Blake 512)</option>
+                            <option value="phi">BHCoin</option>
+                            <option value="polytimos">Politimos</option>
+                            <option value="quark">Quark</option>
+                            <option value="qubit">Qubit</option>
+                            <option value="sha256d">SHA256d (bitcoin)</option>
+                            <option value="sha256t">SHA256 x3</option>
+                            <option value="sia">SIA (Blake2B)</option>
+                            <option value="sib">Sibcoin (X11+Streebog)</option>
+                            <option value="scrypt" selected>Scrypt</option>
+                            <option value="scrypt-jane">Scrypt-jane Chacha</option>
+                            <option value="skein">Skein SHA2 (Skeincoin)</option>
+                            <option value="skein2">Double Skein (Woodcoin)</option>
+                            <option value="skunk">Skein Cube Fugue Streebog</option>
+                            <option value="s3">S3 (1Coin)</option>
+                            <option value="timetravel">Machinecoin permuted x8</option>
+                            <option value="tribus">Denarius</option>
+                            <option value="vanilla">Blake256-8 (VNL)</option>
+                            <option value="veltor">Thorsriddle streebog</option>
+                            <option value="whirlcoin">Old Whirlcoin (Whirlpool algo)</option>
+                            <option value="whirlpool">Whirlpool algo</option>
+                            <option value="x11evo">Permuted x11 (Revolver)</option>
+                            <option value="x11">X11 (DarkCoin)</option>
+                            <option value="x13">X13 (MaruCoin)</option>
+                            <option value="x14">X14</option>
+                            <option value="x15">X15</option>
+                            <option value="x17">X17</option>
+                            <option value="wildkeccak">Boolberry</option>
+                            <option value="zr5">ZR5 (ZiftrCoin)</option></select></td>
+                </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="grid-cl-miningStats">
+            <h1> Mining Stats</h1>
+            
+                <div class="grid-cl-consoleOutput">
+                    <div id="consoleOutput" style="color:#0F0"></div>
+                </div>	
+            	<div class="grid-cl-miningStatsPool" >
+                    <div class="grid-cl-miningStatsPoolSub"  id="miningStatsPool">
+                        <div class="grid-header">Pool Stats</div>
+                        <div style="text-align:center; color:#FFF">
+                            <table  border="0" style="margin: 0px 5%; color:#FFF;">
+                            <td>
+                                <tr style="background-color:#111">
+                                    <td ><strong>Pool:</strong></td>
+                                    <td ></td><!--set the space between here-->
+                                    <td><div id="miningStatsPoolUrl" >Acquiring</div></td><!-- set width here-->
+                                    <td width="10px"></td><!--space bewteen colmuns-->
+                                    <td><strong>Pool Accepted:</strong></td>
+                                    <td ></td><!--set the space between here-->
+                                    <td><div id="miningStatsPoolCpuAcceptedCount" >Acquiring</div></td><!-- set width here-->
+                                    <td width="10px"></td><!--space bewteen colmuns-->
+                                    <td><strong>Pool Stratum Diff:</strong></td>
+                                    <td ></td><!--set the space between here-->
+                                    <td><div id="miningStatsStratumDiff" >Acquiring</div></td><!-- set width here-->
+                                </tr>
+                                <tr>
+                                    <td><strong>Username:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsUsername" style="width:110%">Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                    <td><strong>Pool Share Diff:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsPoolCpuAcceptedSharediff" >Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                	<td><strong>Pool Target Diff:</strong></td>
+                                    <td></td><!--set the space between here-->
+                                    <td><div id="miningStatsStratumDiffTarget" >Acquiring</div></td><!-- set width here-->
+                                </tr>
+                                <tr style="background-color:#111">
+                                    <td><strong>Password:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsPassword" >Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                    <td><strong>Pool Hashrate:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsPoolCpuAcceptedHashrate" style="width:100%">Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                </tr>
+                                <tr>
+                                    <td><strong>CPU Algo:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsAlgoCPU" >Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                    <td><strong>Pool Block Number:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsPoolCpuAcceptedBlockNumber" style="width:100%">Acquiring</div></td>
+                                </tr>
+                                <tr style="background-color:#111">
+                                    <td><strong>GPU Algo:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsAlgoGPU" >Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                    <td><strong>Pool NetInfo:</strong></td>
+                                    <td></td>
+                                    <td><div id="miningStatsPoolCpuAcceptedNetinfo" style="width:100%">Acquiring</div></td>
+                                    <td ></td><!--space bewteen colmuns-->
+                                </tr>
+                                <tr>
+                                </tr>
+                              </td>
+                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-cl-deviceCpuStats" id="deviceCpuStats">
+                    <div class="grid-header">CPU Stats</div>
+                    <div id="deviceCpuStatsHashrate">
+                    	<div class="grid-header">CPU Hashrates</div>
+                    	<div class="grid-subheader cpuCore" id="deviceCpuStatsOverallHashrate">Overall<br>{$deviceCpuStatsHashrate}</div>
+                        <div class="cpuCore cpuCore0 " ><strong>Core 0</strong><br> <div id="deviceCpuStatsHashrateCore0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>Core 1</strong><br> <div id="deviceCpuStatsHashrateCore1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>Core 2</strong><br> <div id="deviceCpuStatsHashrateCore2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>Core 3</strong><br> <div id="deviceCpuStatsHashrateCore3"></div></div>
+                        <div class="cpuCore cpuCore4" ><strong>Core 4</strong><br> <div id="deviceCpuStatsHashrateCore4"></div></div>
+                        <div class="cpuCore cpuCore5" ><strong>Core 5</strong><br> <div id="deviceCpuStatsHashrateCore5"></div></div>
+                        <div class="cpuCore cpuCore6" ><strong>Core 6</strong><br> <div id="deviceCpuStatsHashrateCore6"></div></div>
+                        <div class="cpuCore cpuCore7" ><strong>Core 7</strong><br> <div id="deviceCpuStatsHashrateCore7"></div></div>
+                	</div>
+                    <div id="deviceCpuStatsTemp">
+                    	<div class="grid-header">CPU Temperature</div>
+                    	<div class="grid-subheader cpuCore" id="deviceCpuStatsOverallTemp">Overall<br>{$deviceCpuStatsOverallTemp}</div>
+                        <div class="cpuCore cpuCore0" ><strong>Core 0</strong><br> <div id="deviceCpuStatsTempCore0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>Core 1</strong><br> <div id="deviceCpuStatsTempCore1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>Core 2</strong><br> <div id="deviceCpuStatsTempCore2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>Core 3</strong><br> <div id="deviceCpuStatsTempCore3"></div></div>
+                        <div class="cpuCore cpuCore4" ><strong>Core 4</strong><br> <div id="deviceCpuStatsTempCore4"></div></div>
+                        <div class="cpuCore cpuCore5" ><strong>Core 5</strong><br> <div id="deviceCpuStatsTempCore5"></div></div>
+                        <div class="cpuCore cpuCore6" ><strong>Core 6</strong><br> <div id="deviceCpuStatsTempCore6"></div></div>
+                        <div class="cpuCore cpuCore7" ><strong>Core 7</strong><br> <div id="deviceCpuStatsTempCore7"></div></div>
+                	</div>
+                     <div id="deviceCpuStatsUsage">
+                    	<div class="grid-header">CPU Usage</div>
+                    	<div class="grid-subheader cpuCore" id="deviceCpuStatsOverallUsage">Overall<br>{$deviceCpuStatsOverallUsage}</div>
+                        <div class="cpuCore cpuCore0" ><strong>Core 0</strong><br> <div id="deviceCpuStatsUsageCore0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>Core 1</strong><br> <div id="deviceCpuStatsUsageCore1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>Core 2</strong><br> <div id="deviceCpuStatsUsageCore2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>Core 3</strong><br> <div id="deviceCpuStatsUsageCore3"></div></div>
+                        <div class="cpuCore cpuCore4" ><strong>Core 4</strong><br> <div id="deviceCpuStatsUsageCore4"></div></div>
+                        <div class="cpuCore cpuCore5" ><strong>Core 5</strong><br> <div id="deviceCpuStatsUsageCore5"></div></div>
+                        <div class="cpuCore cpuCore6" ><strong>Core 6</strong><br> <div id="deviceCpuStatsUsageCore6"></div></div>
+                        <div class="cpuCore cpuCore7" ><strong>Core 7</strong><br> <div id="deviceCpuStatsUsageCore7"></div></div>
+                	</div>
+                </div>
+                <div class="grid-cl-deviceGpuStats" id="deviceGpuStats">
+                    <div class="grid-header">GPU Stats</div>
+                    <div id="deviceGpuStatsHashrate">
+                    	<div class="grid-header">Hashrates</div>
+                    	<div class="grid-subheader cpuCore" id="deviceGpuStatsOverallHashrate">Overall<br>{$deviceGpuStatsOverallHashrate}</div>
+                        <div class="cpuCore cpuCore0" ><strong>GPU 0</strong><br> <div id="deviceGpuStatsHashrate0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>GPU 1</strong><br> <div id="deviceGpuStatsHashrate1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>GPU 2</strong><br> <div id="deviceGpuStatsHashrate2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>GPU 3</strong><br> <div id="deviceGpuStatsHashrate3"></div></div>
+                        <div class="cpuCore cpuCore4" ><div id="deviceGpuStatsHashWattRate0"></div></div>
+                        <div class="cpuCore cpuCore5" ><div id="deviceGpuStatsHashWattRate1"></div></div>
+                        <div class="cpuCore cpuCore6" ><div id="deviceGpuStatsHashWattRate2"></div></div>
+                        <div class="cpuCore cpuCore7" ><div id="deviceGpuStatsHashWattRate3"></div></div>
+                	</div>
+                    <div id="deviceGpuStatsClock">
+                    	<div class="grid-header">Clock</div>
+                        <div class="cpuCore cpuCore0" ><strong>GPU 0</strong><br> <div id="deviceGpuStatsClockGpu0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>GPU 1</strong><br> <div id="deviceGpuStatsClockGpu1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>GPU 2</strong><br> <div id="deviceGpuStatsClockGpu2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>GPU 3</strong><br> <div id="deviceGpuStatsClockGpu3"></div></div>
+                	</div>
+                    <div id="deviceGpuStatsTemp">
+                    	<div class="grid-header">Temperatures</div>
+                        <div class="cpuCore cpuCore0" ><strong>GPU 0</strong><br> <div id="deviceGpuStatsTempGpu0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>GPU 1</strong><br> <div id="deviceGpuStatsTempGpu1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>GPU 2</strong><br> <div id="deviceGpuStatsTempGpu2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>GPU 3</strong><br> <div id="deviceGpuStatsTempGpu3"></div></div>
+                	</div>
+                    <div id="deviceGpuStatsFan">
+                    	<div class="grid-header">Fan Power</div>
+                        <div class="cpuCore cpuCore0" ><strong>FAN 0</strong><br> <div id="deviceGpuStatsFan0"></div></div>
+                        <div class="cpuCore cpuCore1" ><strong>FAN 1</strong><br> <div id="deviceGpuStatsFan1"></div></div>
+                        <div class="cpuCore cpuCore2" ><strong>FAN 2</strong><br> <div id="deviceGpuStatsFan2"></div></div>
+                        <div class="cpuCore cpuCore3" ><strong>FAN 3</strong><br> <div id="deviceGpuStatsFan3"></div></div>
+                	</div>
+                </div>
+                
+        </div>
+        
+        <div class="grid-cl-device">
+        	<div class="grid-cl-deviceCpu" id="deviceCpu">
+            	<h1>CPU</h1>
+                <div class="grid-cl-deviceInfo" id="deviceCpuInfo">
+            		<div class="grid-header">CPU Info</div>
+                    <table  border="0" style="margin: 0px 5%; ">
+                        <tr>
+                            <td><strong>Manufacturer:</strong></td>
+                            <td></td>
+                            <td><div id="deviceCpuInfoManufacturer">{$deviceCpuInfoManufacturer}</div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brand:</strong></td>
+                            <td></td>
+                            <td><div id="deviceCpuInfoBrand">{$deviceCpuInfoBrand}</div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cores:</strong></td>
+                            <td></td>
+                            <td><div id="deviceCpuInfoCores">{$deviceCpuInfoCores}</div></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="grid-cl-deviceSettingsCpu" id="deviceCpuSettings">
+            		<div class="grid-header">CPU Settings</div>
+                        <table  border="0" style="margin: 0px 5%; width:auto;">
+                            <tr>
+                                <td><strong>Threads:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuThreads" checked></td>
+                                <td><input type="range" name ="miningSettingsCpuThreads" id="miningSettingsCpuThreadsRange" value="1" min="1" max="2"></td>
+                                <td><div id="miningSettingsCpuThreadsNumber" style="width:40px; text-align:center" >1</div></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Number of miner threads (default: number of processors)</span></div></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><br><strong>Options below</strong><br><br></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Max-temp:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuMaxTemp"></td>
+                                <td><input type="number" name ="miningSettingsCpuMaxTemp" value="" style="text-align:center">&#176 C</td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Only mine if cpu temp is less than specified value (linux)</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Max-diff:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuMaxDiff"></td>
+                                <td><input type="number" name ="miningSettingsCpuMaxDiff" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Only mine if net difficulty is less than specified value</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CPU-priority:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuPriority"></td>
+                                <td><input type="number" name ="miningSettingsCpuPriority" value="0" min="0" max="5" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Set process priority (default: 0 idle, 2 normal to 5 highest)</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CPU-affinity:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuAffinity"></td>
+                                <td><input type="text" name ="miningSettingsCpuAffinity" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Set process affinity to cpu core(s), mask 0x3 for cores 0 and 1</span></div></td>
+                            </tr>	
+                            <tr>
+                                <td><strong>Randomize:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsRandomize" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Randomize scan range start to reduce duplicates</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Retries:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsRetries"></td>
+                                <td><input type="number" name ="miningSettingsRetries" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Number of times to retry if a network call fails<br>(default: retry indefinitely)</span></div></td>
+                            </tr>
+                        </table>
+                </div>
+                
+                
+        	</div>
+            <div class="grid-cl-deviceGpu" id="deviceGpu">
+            	<h1> GPU</h1>
+                <div class="grid-cl-deviceInfo" id="deviceGpuInfo">
+                	<div class="grid-header">GPU Info</div>
+                    <table  border="0" style="margin: 0px 5%;">
+                        <tr>
+                            <td><strong>Vendor:</strong></td>
+                            <td></td>
+                            <td><li id="deviceGpuInfoVendor">{$deviceGpuInfoVendor}</li></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Model:</strong></td>
+                            <td></td>
+                            <td><div id="deviceGpuInfoModel">{$deviceGpuInfoModel}</div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VRAM:</strong></td>
+                            <td></td>
+                            <td><div id="deviceGpuInfoVram">{$deviceGpuInfoVram}</div></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="grid-cl-deviceSettingsGpu" id="deviceGpuSettings">
+            		<div class="grid-header">GPU Settings</div>
+                    <table  border="0" style="margin: 0px 5%; width:auto;">
+                        <tr>
+                            <td><strong>Threads:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuThreads" ></td>
+                            <td><input type="range" name ="miningSettingsGpuThreads" id="miningSettingsGpuThreadsRange" value="1" min="1" max="2"></td>
+                            <td><div id="miningSettingsGpuThreadsNumber" style="width:40px; text-align:center" >1</div></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Number of miner threads (default: number of nVidia GPUs)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><br><strong>Options below</strong><br><br></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Launch-config:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuLaunchConfig" checked></td>
+                            <td><input type="txt" name ="miningSettingsGpuLaunchConfig" value="auto" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">
+                                    L - Legacy cards with compute 1.x
+                                <br>F - Fermi cards with compute 2.x
+                                <br>K - Kepler cards with compute 3.0
+                                <br>T - For compute 3.5 cards such as Titan, GTX 780 and GK208 based
+                                <br>X - Experimental kernel. Currently requires compute 3.5
+                            </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diff-factor:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDiffFactor"></td>
+                            <td><input type="number" name ="miningSettingsGpuDiffFactor" value="1" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Divide difficulty by this factor (default 1.0)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diff-multiplier:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDiffMultiplier"></td>
+                            <td><input type="number" name ="miningSettingsGpuDiffMultiplier" value="1" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Multiply difficulty by this value (default 1.0)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU-priority:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuPriority"></td>
+                            <td><input type="number" name ="miningSettingsCpuPriority" value="" min="0" max="5" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set process priority (default: 0 idle, 2 normal to 5 highest)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU-affinity:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsCpuAffinity"></td>
+                            <td><input type="text" name ="miningSettingsCpuAffinity" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set process affinity to cpu core(s), mask 0x3 for cores 0 and 1</span></div></td>
+                        </tr>	
+                        <tr>
+                            <td><strong>Retries:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsRetries"></td>
+                            <td><input type="number" name ="miningSettingsRetries" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Number of times to retry if a network call fails<br>(default: retry indefinitely)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Max-temp:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMaxTemp"></td>
+                            <td><input type="number" name ="miningSettingsGpuMaxTemp" value="" style="text-align:center">&#176 C</td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Only mine if gpu temp is less than specified value</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Max-diff:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMaxDiff"></td>
+                            <td><input type="number" name ="miningSettingsGpuMaxDiff" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Only mine if net difficulty is less than specified value</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mem-clock boost clock:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemClock"></td>
+                            <td><input type="number" name ="miningSettingsGpuMemClock" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu memory boost clock</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mem-clock offset:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemClockOffset"></td>
+                            <td><input type="number" name ="miningSettingsGpuMemClockOffset" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu memory offset</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gpu-clock:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuClock"></td>
+                            <td><input type="number" name ="miningSettingsGpuClock" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu engine boost clock</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Plimit:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuPlimit"></td>
+                            <td><input type="number" name ="miningSettingsGpuPlimit" value="100" max="100" style="text-align:center">&#37 </td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu power limit in percentage</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tlimit:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTlimit"></td>
+                            <td><input type="number" name ="miningSettingsGpuTlimit" value="80" style="text-align:center">&#176 C</td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu thermal limit in degrees</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time-limit:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTimeLimit"></td>
+                            <td><input type="number" name ="miningSettingsGpuTimeLimit" value="" style="text-align:center">[s]</td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Maximum time [s] to mine before exiting the program.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shares-limit:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuSharesLimit"></td>
+                            <td><input type="number" name ="miningSettingsGpuSharesLimit" value="" style="text-align:center">[s]</td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Maximum shares [s] to mine before exiting the program.</span></div></td>
+                        </tr>
+                    </table>
+                </div>
+        	</div>
+        </div>
+        
+        <div class="grid-cl-miningControl" >
+            <div class="grid-cl-miningControlStart btngreen btnMining" value="Start" id="startbtn">Start</div>
+            <div class="grid-cl-miningControlStop btnred btnMining miningDeactive" value="Stop" id="stopbtn">Stop</div>
+        </div>
+	</div>
+    
+    <div class="grid-cl-footer">https://github.com/dallar-project/MinerWrapperr</div>
+</div>
 
-            var miningData = [  
-                document.querySelector('#miningUser').value.toString(),
-                document.querySelector('#miningPool').value.toString(),
-                document.querySelector('#miningAlgo').value.toString(),
-                document.querySelector('#miningUserPw').value.toString(),
-                document.querySelector('input[name="miningDevice"]:checked').value.toString(),
-                document.getElementById("cpuThreadSliderValue").value.toString()
-            ];
-            ipcRenderer.send('startMining',miningData);
-        }
-    </script>
+<script>
+	//initial scripts
+	const electron = require('electron');
+	const {ipcRenderer} = electron;
+</script>
+<script>
+//handles variables
+//Inputs
+var $miningDevice;
+var $miningSettingsPool;
+var $miningSettingsUsername;
+var $miningSettingsPassword;
+var $miningSettingsAlgoCPU;
+var $miningSettingsAlgoGPU;
 
-    <script>
-        const electron = require('electron');
-        const {ipcRenderer} = electron;
-        const ul = document.querySelector('ul');
-        const br = document.createElement('br');
-        var cpuCores = 0;
-        //https://www.npmjs.com/package/systeminformation
-        //add systemInfoCpu
-        ipcRenderer.on('systemInfoCpu', function(e, data){
-            var container = document.getElementById('systemInfoCpuManufacturer');
-            var itemText = document.createTextNode(data.manufacturer); container.appendChild(itemText);
-            container = document.getElementById('systemInfoCpuBrand');itemText = document.createTextNode(data.brand); container.appendChild(itemText);
-            container = document.getElementById('systemInfoCpuCores');itemText = document.createTextNode(data.cores); container.appendChild(itemText); cpuCores = data.cores;
-            document.getElementById("cpuThreadSlider").max = data.cores;
-        });
-        //add systemInfoGraphics 
-        ipcRenderer.on('systemInfoGraphics', function(e, data){
-            var container = document.getElementById('systemInfoGraphicsVendor');
-            var itemText = document.createTextNode(data.controllers[0].vendor); container.appendChild(itemText);
-            container = document.getElementById('systemInfoGraphicsModel'); itemText = document.createTextNode(data.controllers[0].model); container.appendChild(itemText);
-            container = document.getElementById('systemInfoGraphicsVram'); itemText = document.createTextNode(data.controllers[0].vram + ' Mb'); container.appendChild(itemText);
-        });
+var $miningSettingsCpuThreads;
+var $opt_miningSettingsCpuThreads;
+var 	$miningSettingsCpuThreads;
+var $opt_miningSettingsCpuMaxTemp;
+var 	$miningSettingsCpuMaxTemp;
+var $opt_miningSettingsCpuMaxDiff;
+var 	$miningSettingsCpuMaxDiff;
+var $opt_miningSettingsCpuPriority;
+var 	$miningSettingsCpuPriority;
+var $opt_miningSettingsCpuAffinity;
+var 	$miningSettingsCpuAffinity;
 
-        //add systemInfoNetworkInterfaces
-        ipcRenderer.on('systemInfoNetworkInterfaces', function(e, data){
-            var container = document.getElementById('systemInfoNetworkInterfacesIface');
-            var itemText = document.createTextNode(data[0].iface); container.appendChild(itemText);
-            container = document.getElementById('systemInfoNetworkInterfacesMac'); itemText = document.createTextNode(data[0].mac); container.appendChild(itemText);
-            container = document.getElementById('systemInfoNetworkInterfacesIp'); itemText = document.createTextNode(data[0].ip4); container.appendChild(itemText);
-        });
+var $opt_miningSettingsRandomize;
+var $opt_miningSettingsRetries;
+var 	$miningSettingsRetries;
 
-        //update miningStatsCpuHash
-        ipcRenderer.on('miningStatsCpuHash', function(e, data){
-            var container = document.getElementById('miningStatsCpuHash');
-            container.innerHTML =  'to do ' + data[2].toString();
-
-            var id = ['miningStatsCpuCore', data[0].toString(), 'Hash'];
-            id = id.join('');
-            var container = document.getElementById(id); //systemStatsCpuCore0Hash
-            container.innerHTML = data[1].toString() + data[2].toString();
-        });
-
-        //update miningStatsStratumDiff
-        ipcRenderer.on('miningStatsStratumDiff', function(e, data){
-            var container = document.getElementById('miningStatsStratDiff');
-            container.innerHTML =  data[0].toString() + ' (' + data[1].toString() + ')';
-
-        });
-
-        //update systemStatsCurrentLoad
-        ipcRenderer.on('systemStatsCurrentLoad', function(e, data){
-            var container = document.getElementById('systemStatsCurrentLoadCpu');
-            container.innerHTML =  data.currentload.toFixed(2).toString() + '%';
-            container.style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.currentload.toFixed(2)).toString() + '%, #F00 100%)';
+var	$opt_miningSettingsGpuThreads;
+var		$miningSettingsGpuThreads;
 
 
-            for (i = 0; i < cpuCores;i++){
-                var id = ['cpuCore', i]; id = id.join('');
-                document.getElementById(id).style.background = '-webkit-linear-gradient(top, #FFF  ' + (100-data.cpus[i].load).toString() + '%, #F00 100%)';
-                id = ['systemStatsCurrentLoadCpuCore', i]; id = id.join('');
-                container = document.getElementById(id); container.innerHTML = data.cpus[i].load.toFixed(2).toString() + '%';
-            }   
-        });
-        //update systemStatsCpuTemp
-        ipcRenderer.on('systemStatsCpuTemp', function(e, data){
-            var container = document.getElementById('systemStatsCpuTemp');
-            container.innerHTML = '<strong>CPU Temp: </strong>' + data.main.toFixed(2).toString() + 'C';
-            container.style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.main).toString() + 'C, #F00 100%)';
-            container = document.getElementById('systemStatsCpuCore0Temp'); container.innerHTML = data.main.toFixed(2).toString() + 'C';
+var $opt_miningSettingsGpuLaunchConfig
+var     $miningSettingsGpuLaunchConfig
+var $opt_miningSettingsGpuDiffMultiplier
+var     $miningSettingsGpuDiffMultiplier
+var $opt_miningSettingsGpuDiffFactor
+var     $miningSettingsGpuDiffFactor
 
-            for (i = 0; i < cpuCores;i++){
-                var id = ['cpuCore', i,'Temp']; id = id.join('');
-                document.getElementById(id).style.background = '-webkit-linear-gradient(top, #77F  ' + (100-data.cpus[i].load).toString() + '%, #F00 100%)';
-                id = ['systemStatsCpuCore', i,'Temp']; id = id.join('');
-                container = document.getElementById(id); container.innerHTML = data.cores[i].toFixed(2).toString() + '%';
-            }   
+var	$opt_miningSettingsGpuMaxTemp;
+var		$miningSettingsGpuMaxTemp;
+var	$opt_miningSettingsGpuMaxDiff;
+var		$miningSettingsGpuMaxDiff;
+var	$opt_miningSettingsGpuMemClock;
+var		$miningSettingsGpuMemClock;
+var	$opt_miningSettingsGpuMemClockOffset;
+var		$miningSettingsGpuMemClockOffset;
+var	$opt_miningSettingsGpuClock;
+var		$miningSettingsGpuClock;
+var	$opt_miningSettingsGpuPlimit;
+var		$miningSettingsGpuPlimit;
+var	$opt_miningSettingsGpuTlimit;
+var		$miningSettingsGpuTlimit;
+var	$opt_miningSettingsGpuTimeLimit;
+var		$miningSettingsGpuTimeLimit;
+var	$opt_miningSettingsGpuSharesLimit;
+var		$miningSettingsGpuSharesLimit;
 
-        });
-        //add item system:info
-        ipcRenderer.on('item:add', function(e, item){
-            ul.className = 'collection'
-            const li = document.createElement('li');
-            li.className = 'collection-item';
-            const itemText = document.createTextNode(item);
-            li.appendChild(itemText);
-            ul.appendChild(li);
-        });
+//Output
+//cpu
 
-        //clear items
-        ipcRenderer.on('item:clear', function(){
-            ul.innerHTML = '';
-            ul.className = '';
-        });
+var $miningStatsPoolUrl;
+var $miningStatsUsername;
+var $miningStatsPassword;
+var $miningStatsAlgoCPU;
+var $miningStatsAlgoGPU;
 
-        //remove item
-        ul.addEventListener('dblclick', removeItem)
-        function removeItem(e){
-            e.target.remove();
-            if(ul.children == 0){
-                ul.className = '';
-            };
-        };
-    </script>
+var $deviceCpuInfoManufacturer;
+var $deviceCpuInfoBrand;
+var $deviceCpuInfoNumberCores;
+
+var $deviceCpuStatsOverallTemp;
+var $deviceCpuStatsTempCore0;
+var $deviceCpuStatsTempCore1;
+var $deviceCpuStatsTempCore2;
+var $deviceCpuStatsTempCore3;
+var $deviceCpuStatsTempCore4;
+var $deviceCpuStatsTempCore5;
+var $deviceCpuStatsTempCore6;
+var $deviceCpuStatsTempCore7;
+
+var $deviceCpuStatsOverallUsage;
+var $deviceCpuStatsUsageCore0;
+var $deviceCpuStatsUsageCore1;
+var $deviceCpuStatsUsageCore2;
+var $deviceCpuStatsUsageCore3;
+var $deviceCpuStatsUsageCore4;
+var $deviceCpuStatsUsageCore5;
+var $deviceCpuStatsUsageCore6;
+var $deviceCpuStatsUsageCore7;
+
+var $deviceCpuStatsOverallHashrate;
+var $deviceCpuStatsHashrateCore0;
+var $deviceCpuStatsHashrateCore1;
+var $deviceCpuStatsHashrateCore2;
+var $deviceCpuStatsHashrateCore3;
+var $deviceCpuStatsHashrateCore4;
+var $deviceCpuStatsHashrateCore5;
+var $deviceCpuStatsHashrateCore6;
+var $deviceCpuStatsHashrateCore7;
+
+//gpu
+var $deviceGpuInfoVendor;
+var $deviceGpuInfoModel;
+var $deviceGpuInfoVram;
+
+
+
+</script>
+<script>
+
+
+ipcRenderer.on('consoleOutput', function(e, data){
+    $("#consoleOutput").text(data);
+});
+ipcRenderer.on('updateHTML', function(e, data){
+    console.log(data);
+    
+    //miningStatsTimestamp
+
+	$("#miningStatsPoolUrl").text(data[0].miningStatsPoolUrl);
+	$("#miningStatsUsername").text(data[0].miningStatsUsername);
+	$("#miningStatsPassword").text(data[0].miningStatsPassword);
+	$("#miningStatsAlgoCPU").text(data[0].miningStatsAlgoCPU);
+	$("#miningStatsAlgoGPU").text(data[0].miningStatsAlgoGPU);
+    
+    //miningStatsPoolCpuAccepted.
+	$("#miningStatsPoolCpuAcceptedCount").text(data[0].miningStatsPoolCpuAccepted.accepted_count + '/' + data[0].miningStatsPoolCpuAccepted.total_count);
+	$("#miningStatsPoolCpuAcceptedSharediff").text(data[0].miningStatsPoolCpuAccepted.sharediff);
+	$("#miningStatsPoolCpuAcceptedHashrate").text(data[0].miningStatsPoolCpuAccepted.hashrate + data[0].miningStatsPoolCpuAccepted.hashrateunit);
+	
+    //miningStatsPoolBlock.
+	$("#miningStatsPoolCpuAcceptedBlockNumber").text(data[0].miningStatsPoolBlock.block_number);
+	$("#miningStatsPoolCpuAcceptedNetinfo").text(data[0].miningStatsPoolBlock.netinfo);
+	
+    //miningStatsStratumDiff.
+	$("#miningStatsStratumDiff").text(data[0].miningStatsStratumDiff.stratum_diff);
+	$("#miningStatsStratumDiffTarget").text(data[0].miningStatsStratumDiff.targetdiff);
+
+	$("#deviceCpuInfoManufacturer").text(data[0].deviceCpuInfoManufacturer);
+	$("#deviceCpuInfoBrand").text(data[0].deviceCpuInfoBrand);
+    $("#deviceCpuInfoCores").text(data[0].deviceCpuInfoCores);
+        $("input[name=miningSettingsCpuThreads]").attr("max",data[0].deviceCpuInfoCores);
+    
+
+    $("#deviceCpuStatsOverallTemp").text(data[0].deviceCpuStatsOverallTemp);
+	    $("#deviceCpuStatsOverallTemp").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsOverallTemp).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore0").text(data[0].deviceCpuStatsTempCore0);
+	    $("#deviceCpuStatsTempCore0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore0).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore1").text(data[0].deviceCpuStatsTempCore1);
+	    $("#deviceCpuStatsTempCore1").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore1).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore2").text(data[0].deviceCpuStatsTempCore2);
+	    $("#deviceCpuStatsTempCore2").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore2).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore3").text(data[0].deviceCpuStatsTempCore3);
+	    $("#deviceCpuStatsTempCore3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore3).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore4").text(data[0].deviceCpuStatsTempCore4);
+	    $("#deviceCpuStatsTempCore4").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore4).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore5").text(data[0].deviceCpuStatsTempCore5);
+	    $("#deviceCpuStatsTempCore5").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore5).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore6").text(data[0].deviceCpuStatsTempCore6);
+	    $("#deviceCpuStatsTempCore6").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore6).toString() + "%, #F00 100%)");
+	$("#deviceCpuStatsTempCore7").text(data[0].deviceCpuStatsTempCore7);
+	    $("#deviceCpuStatsTempCore7").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsTempCore7).toString() + "%, #F00 100%)");
+	
+	$("#deviceCpuStatsOverallUsage").text(data[0].deviceCpuStatsOverallUsage);
+	    $("#deviceCpuStatsOverallUsage").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsOverallUsage).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore0").text(data[0].deviceCpuStatsUsageCore0);
+	    $("#deviceCpuStatsUsageCore0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore0).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore1").text(data[0].deviceCpuStatsUsageCore1);
+	    $("#deviceCpuStatsUsageCore1").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore1).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore2").text(data[0].deviceCpuStatsUsageCore2);
+	    $("#deviceCpuStatsUsageCore2").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore2).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore3").text(data[0].deviceCpuStatsUsageCore3);
+	    $("#deviceCpuStatsUsageCore3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore3).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore4").text(data[0].deviceCpuStatsUsageCore4);
+	    $("#deviceCpuStatsUsageCore4").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore4).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore5").text(data[0].deviceCpuStatsUsageCore5);
+	    $("#deviceCpuStatsUsageCore5").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore5).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore6").text(data[0].deviceCpuStatsUsageCore6);
+	    $("#deviceCpuStatsUsageCore6").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore6).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsUsageCore7").text(data[0].deviceCpuStatsUsageCore7);
+	    $("#deviceCpuStatsUsageCore7").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsUsageCore7).toString() + "%, #00F 100%)");
+	
+	$("#deviceGpuInfoVendor").text(data[0].deviceGpuInfoVendor);
+	$("#deviceGpuInfoModel").text(data[0].deviceGpuInfoModel);
+    $("#deviceGpuInfoVram").text(data[0].deviceGpuInfoVram);
+
+    //"deviceGpuStats":deviceGpuStats, //'core','clockSpeed','clockUnits','hashWattRate','hashWattRateUnits','unk1','unk2','temp','tempUnits','fan','fanSpeedPercent'
+
+//$("#deviceGpuStatsHashrate0").text(data[0].deviceGpuStats[data[0].deviceGpuStats.core]
+	$("#deviceGpuStatsOverallHashrate").text(data[0].deviceGpuStatsOverallHashrate);
+	$("#deviceGpuStatsHashrate0").text(data[0].deviceGpuStatsHashrate0[0]  + data[0].deviceGpuStatsHashrate0[1]);
+	    $("#deviceGpuStatsHashrate0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStatsHashrate0[0]).toString() + "%, #0F0 100%)");
+	$("#deviceGpuStatsHashrate1").text(data[0].deviceGpuStatsHashrate1[0]  + data[0].deviceGpuStatsHashrate1[1]);
+	    $("#deviceGpuStatsHashrate1").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStatsHashrate1[0]).toString() + "%, #0F0 100%)");
+	$("#deviceGpuStatsHashrate2").text(data[0].deviceGpuStatsHashrate2[0]  + data[0].deviceGpuStatsHashrate2[1]);
+	    $("#deviceGpuStatsHashrate2").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStatsHashrate2[0]).toString() + "%, #0F0 100%)");
+	$("#deviceGpuStatsHashrate3").text(data[0].deviceGpuStatsHashrate3[0]  + data[0].deviceGpuStatsHashrate3[1]);
+	    $("#deviceGpuStatsHashrate3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStatsHashrate3[0]).toString() + "%, #0F0 100%)");
+
+    $("#deviceGpuStatsHashWattRate0").text(data[0].deviceGpuStats[0].hashWattRate + ' ' + data[0].deviceGpuStats[0].hashWattRateUnits);
+    $("#deviceGpuStatsHashWattRate1").text(data[0].deviceGpuStats[1].hashWattRate + ' ' + data[0].deviceGpuStats[1].hashWattRateUnits);
+    $("#deviceGpuStatsHashWattRate2").text(data[0].deviceGpuStats[2].hashWattRate + ' ' + data[0].deviceGpuStats[2].hashWattRateUnits);
+    $("#deviceGpuStatsHashWattRate3").text(data[0].deviceGpuStats[3].hashWattRate + ' ' + data[0].deviceGpuStats[3].hashWattRateUnits);
+
+    $("#deviceGpuStatsTempGpu0").text(data[0].deviceGpuStats[0].temp + ' ' + data[0].deviceGpuStats[0].tempUnits);
+	    $("#deviceGpuStatsTempGpu0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[0].temp).toString() + "%, #F00 100%)");
+    $("#deviceGpuStatsTempGpu1").text(data[0].deviceGpuStats[1].temp + ' ' + data[0].deviceGpuStats[1].tempUnits);
+	    $("#deviceGpuStatsTempGpu1").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[1].temp).toString() + "%, #F00 100%)");
+    $("#deviceGpuStatsTempGpu2").text(data[0].deviceGpuStats[2].temp + ' ' + data[0].deviceGpuStats[2].tempUnits);
+	    $("#deviceGpuStatsTempGpu2").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[2].temp).toString() + "%, #F00 100%)");
+    $("#deviceGpuStatsTempGpu3").text(data[0].deviceGpuStats[3].temp + ' ' + data[0].deviceGpuStats[3].tempUnits);
+	    $("#deviceGpuStatsTempGpu3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[3].temp).toString() + "%, #F00 100%)");
+
+    $("#deviceGpuStatsFan0").text(data[0].deviceGpuStats[0].fanSpeedPercent + '%');
+	    $("#deviceGpuStatsFan0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[0].fanSpeedPercent).toString() + "%, #AAA 100%)");
+    $("#deviceGpuStatsFan1").text(data[0].deviceGpuStats[1].fanSpeedPercent + '%');
+	    $("#deviceGpuStatsFan1").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[1].fanSpeedPercent).toString() + "%, #AAA 100%)");
+    $("#deviceGpuStatsFan2").text(data[0].deviceGpuStats[2].fanSpeedPercent + '%');
+	    $("#deviceGpuStatsFan2").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[2].fanSpeedPercent).toString() + "%, #AAA 100%)");
+    $("#deviceGpuStatsFan3").text(data[0].deviceGpuStats[3].fanSpeedPercent + '%');
+	    $("#deviceGpuStatsFan3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[3].fanSpeedPercent).toString() + "%, #AAA 100%)");
+
+	
+	
+	$("#deviceCpuStatsOverallHashrate").text(data[0].deviceCpuStatsOverallHashrate);
+	    $("#deviceCpuStatsOverallHashrate").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsOverallHashRate).toString() + "%, #00F 100%)");
+    $("#deviceCpuStatsHashrateCore0").text(data[0].deviceCpuStatsHashrateCore0[0] + ' ' + data[0].deviceCpuStatsHashrateCore0[1]);
+	    $("#deviceCpuStatsHashrateCore0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore0[0]).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsHashrateCore1").text(data[0].deviceCpuStatsHashrateCore1[0]  + ' ' + data[0].deviceCpuStatsHashrateCore1[1]);
+	    $("#deviceCpuStatsHashrateCore1").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore1[0]).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsHashrateCore2").text(data[0].deviceCpuStatsHashrateCore2[0]  + ' ' + data[0].deviceCpuStatsHashrateCore2[1]);
+	    $("#deviceCpuStatsHashrateCore2").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore2[0]).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsHashrateCore3").text(data[0].deviceCpuStatsHashrateCore3[0]  + ' ' + data[0].deviceCpuStatsHashrateCore3[1]);
+	    $("#deviceCpuStatsHashrateCore3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore3[0]).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsHashrateCore4").text(data[0].deviceCpuStatsHashrateCore4[0]  + ' ' + data[0].deviceCpuStatsHashrateCore4[1]);
+	    $("#deviceCpuStatsHashrateCore4").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore4[0]).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsHashrateCore5").text(data[0].deviceCpuStatsHashrateCore5[0]  + ' ' + data[0].deviceCpuStatsHashrateCore5[1]);
+	    $("#deviceCpuStatsHashrateCore5").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore5[0]).toString() + "%, #00F 100%)");
+	$("#deviceCpuStatsHashrateCore6").text(data[0].deviceCpuStatsHashrateCore6[0]  + ' ' + data[0].deviceCpuStatsHashrateCore6[1]);
+	    $("#deviceCpuStatsHashrateCore6").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore6[0]).toString() + "%, #00F 100%)");
+    $("#deviceCpuStatsHashrateCore7").text(data[0].deviceCpuStatsHashrateCore7[0]  + ' ' + data[0].deviceCpuStatsHashrateCore7[1]);
+	    $("#deviceCpuStatsHashrateCore7").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsHashrateCore7[0]).toString() + "%, #00F 100%)");
+    
+    
+});
+</script>
+<script>
+//send variables
+function sendVariables(){
+	var miningSettings = [
+		{
+		"miningDevice":					$miningDevice,
+		"miningSettingsPool":			$('input[name=miningSettingsPool]').val(),
+		"miningSettingsUsername":		$('input[name=miningSettingsUsername]').val(),
+		"miningSettingsPassword":		$('input[name=miningSettingsPassword]').val(),
+		"miningSettingsAlgoCPU": 		$('#miningSettingsAlgoCPU option:selected').val(),
+		"miningSettingsAlgoGPU": 		$('#miningSettingsAlgoGPU option:selected').val(),
+		
+		"miningSettingsCpuThreads": 	$('input[name=miningSettingsCpuThreads]').val(),
+		
+		"opt_miningSettingsCpuThreads": 		$('input[name=opt_miningSettingsCpuThreads]').is(':checked'),
+		"miningSettingsCpuThreads": 				$('input[name=miningSettingsCpuThreads]').val(),
+		"opt_miningSettingsCpuMaxTemp": 		$('input[name=opt_miningSettingsCpuMaxTemp]').is(':checked'),
+		"miningSettingsCpuMaxTemp": 				$('input[name=miningSettingsCpuMaxTemp]').val(),
+		"opt_miningSettingsCpuMaxDiff": 		$('input[name=opt_miningSettingsCpuMaxDiff]').is(':checked'),
+		"miningSettingsCpuMaxDiff": 				$('input[name=miningSettingsCpuMaxDiff]').val(),
+		"opt_miningSettingsCpuPriority":		$('input[name=opt_miningSettingsCpuPriority]').is(':checked'),
+		"miningSettingsCpuPriority": 				$('input[name=miningSettingsCpuPriority]').val(),
+		"opt_miningSettingsCpuAffinity": 		$('input[name=opt_miningSettingsCpuAffinity]').is(':checked'),
+		"miningSettingsCpuAffinity": 				$('input[name=miningSettingsCpuAffinity]').val(),
+		"opt_miningSettingsRandomize":	 		$('input[name=opt_miningSettingsRandomize]').is(':checked'),
+		"opt_miningSettingsRetries": 			$('input[name=opt_miningSettingsRetries]').is(':checked'),
+        "miningSettingsRetries": 				    $('input[name=miningSettingsRetries]').val(),
+        
+        "opt_miningSettingsGpuLaunchConfig":    $('input[name=opt_miningSettingsGpuLaunchConfig]').is(':checked'),
+        "miningSettingsGpuLaunchConfig" :        $('input[name=miningSettingsGpuLaunchConfig]').val(),
+        "opt_miningSettingsGpuDiffMultiplier":   $('input[name=opt_miningSettingsGpuDiffMultiplier]').is(':checked'),
+        "miningSettingsGpuDiffMultiplier":       $('input[name=miningSettingsGpuDiffMultiplier]').val(),
+        "opt_miningSettingsGpuDiffFactor":       $('input[name=opt_miningSettingsGpuDiffFactor]').is(':checked'),
+        "miningSettingsGpuDiffFactor":           $('input[name=miningSettingsGpuDiffFactor]').val(),
+
+		"opt_miningSettingsGpuThreads":			$('input[name=opt_miningSettingsGpuThreads]').is(':checked'),
+		"miningSettingsGpuThreads":					$('input[name=miningSettingsGpuThreads]').val(),
+		"opt_miningSettingsGpuMaxTemp":			$('input[name=opt_miningSettingsGpuMaxTemp]').is(':checked'),
+		"miningSettingsGpuMaxTemp":					$('input[name=miningSettingsGpuMaxTemp]').val(),
+		"opt_miningSettingsGpuMaxDiff":			$('input[name=opt_miningSettingsGpuMaxDiff]').is(':checked'),
+		"miningSettingsGpuMaxDiff":					$('input[name=miningSettingsGpuMaxDiff]').val(),
+		"opt_miningSettingsGpuMemClock":		$('input[name=opt_miningSettingsGpuMemClock]').is(':checked'),
+		"miningSettingsGpuMemClock":				$('input[name=miningSettingsGpuMemClock]').val(),
+		"opt_miningSettingsGpuMemClockOffset":	$('input[name=opt_miningSettingsGpuMemClockOffset]').is(':checked'),
+		"miningSettingsGpuMemClockOffset":			$('input[name=miningSettingsGpuMemClockOffset]').val(),
+		"opt_miningSettingsGpuClock":			$('input[name=opt_miningSettingsGpuClock]').is(':checked'),
+		"miningSettingsGpuClock":					$('input[name=miningSettingsGpuClock]').val(),
+		"opt_miningSettingsGpuPlimit":			$('input[name=opt_miningSettingsGpuPlimit]').is(':checked'),
+		"miningSettingsGpuPlimit":					$('input[name=miningSettingsGpuPlimit]').val(),
+		"opt_miningSettingsGpuTlimit":			$('input[name=opt_miningSettingsGpuTlimit]').is(':checked'),
+		"miningSettingsGpuTlimit":					$('input[name=miningSettingsGpuTlimit]').val(),
+		"opt_miningSettingsGpuTimeLimit":		$('input[name=opt_miningSettingsGpuTimeLimit]').is(':checked'),
+		"miningSettingsGpuTimeLimit":				$('input[name=miningSettingsGpuTimeLimit]').val(),
+		"opt_miningSettingsGpuSharesLimit":		$('input[name=opt_miningSettingsGpuSharesLimit]').is(':checked'),
+		"miningSettingsGpuSharesLimit":				$('input[name=miningSettingsGpuSharesLimit]').val()
+		}
+    ];
+    console.log(miningSettings);
+    ipcRenderer.send('startMining',miningSettings);
+}
+</script>
+
+
+<script>
+  $('.grid-cl-deviceCpu').hide();
+  $('.grid-cl-deviceGpu').hide();
+  $('.grid-cl-miningStats').hide();
+  
+//handles all clicking
+jQuery('.btn').click(function(){
+  jQuery('.btn').removeClass('deviceActive');
+  jQuery(this).addClass('deviceActive');
+});
+
+jQuery('.btnMining' && '.grid-cl-miningControlStart').click(function(){
+  jQuery('.btnMining' && '.grid-cl-miningControlStop').removeClass('miningDeactive');
+  jQuery(this).addClass('miningActive');
+  jQuery('.grid-cl-miningStats').show("slow");
+  jQuery('.grid-cl-miningSettings').hide();
+  jQuery('.grid-cl-deviceCpu').hide();
+  jQuery('.grid-cl-deviceGpu').hide();
+  sendVariables();
+});
+
+jQuery('.btnMining' && '.grid-cl-miningControlStop').click(function(){
+  jQuery('.btnMining' && '.grid-cl-miningControlStart').removeClass('miningActive');
+  jQuery(this).addClass('miningDeactive');
+  jQuery('.grid-cl-miningStats').hide("fast");
+  if (jQuery('.grid-cl-chooseDeviceCpu' && 'deviceActive')){
+	  jQuery('.grid-cl-deviceCpu').show("slow");
+  	  jQuery('.grid-cl-miningSettings').show("slow");
+	  jQuery('.grid-cl-deviceGpu').hide();
+  }
+  if (jQuery('.grid-cl-chooseDeviceGpu' && 'deviceActive')){
+	  jQuery('.grid-cl-deviceCpu').hide();
+	  jQuery('.grid-cl-deviceGpu').show("slow");
+  }
+  ipcRenderer.send('stopMining');
+  
+});
+jQuery('.grid-cl-chooseDeviceCpu').click(function(){
+    if (jQuery('#stopbtn').hasClass("miningDeactive")){
+        jQuery('.grid-cl-deviceCpu').show("slow");
+        jQuery('.grid-cl-deviceGpu').hide("fast");
+        $miningDevice = "CPU";
+    }
+});
+jQuery('.grid-cl-chooseDeviceGpu').click(function(){
+    if (jQuery('#stopbtn').hasClass("miningDeactive")){
+        jQuery('.grid-cl-deviceCpu').hide("fast");
+        jQuery('.grid-cl-deviceGpu').show("slow");
+        $miningDevice = "GPU";
+    }
+});
+$('#miningSettingsCpuThreadsRange').on('change',function(){
+    var val = $(this).val();
+    $("#miningSettingsCpuThreadsNumber").text(val);
+});
+$('#miningSettingsGpuThreadsRange').on('change',function(){
+    var val = $(this).val();
+    $("#miningSettingsGpuThreadsNumber").text(val);
+});
+</script>
 </body>
 </html>

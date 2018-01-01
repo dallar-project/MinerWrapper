@@ -1,23 +1,333 @@
 
 body {
     color: black;
+	background:#BBB;
 }
+
+.container{
+	display: grid;
+  	grid-template-columns: 1fr;
+  	grid-template-rows: auto auto 25px;
+  	grid-gap: 0px;
+	grid-template-areas:
+		"grid-cl-header"
+        "grid-cl-main"
+        "grid-cl-footer";
+}
+.grid-cl-header{
+	grid-area: grid-cl-header;	
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 50px;	border-radius: 50px; 	background:#555;	margin:10px 10px; 
+    color: white; text-align: center; font-size:24px; 
+	height:50px;
+}
+.grid-cl-main{
+	grid-area: grid-cl-main;	
+    text-align: center;
+	display: grid;  grid-template-columns: repeat(8,1fr);	grid-template-rows: 80px auto auto auto 80px;
+	grid-template-areas:
+		"grid-cl-chooseDevice grid-cl-chooseDevice grid-cl-chooseDevice grid-cl-chooseDevice grid-cl-chooseDevice grid-cl-chooseDevice grid-cl-chooseDevice grid-cl-chooseDevice"
+		
+		"grid-cl-miningSettings grid-cl-miningSettings grid-cl-miningSettings grid-cl-miningSettings grid-cl-miningSettings grid-cl-miningSettings grid-cl-miningSettings grid-cl-miningSettings"
+		"grid-cl-miningStats grid-cl-miningStats grid-cl-miningStats grid-cl-miningStats grid-cl-miningStats grid-cl-miningStats grid-cl-miningStats grid-cl-miningStats"
+		
+		"grid-cl-device grid-cl-device grid-cl-device grid-cl-device grid-cl-device grid-cl-device grid-cl-device grid-cl-device"
+		"grid-cl-miningControl grid-cl-miningControl grid-cl-miningControl grid-cl-miningControl grid-cl-miningControl grid-cl-miningControl grid-cl-miningControl grid-cl-miningControl";
+		
+}
+.grid-cl-chooseDevice{
+	grid-area: grid-cl-chooseDevice;	
+	display: grid;   grid-template-columns: 2fr 1fr 1fr 1fr 2fr;   grid-template-rows: auto;
+	grid-template-areas:
+		".  grid-cl-chooseDeviceCpu .  grid-cl-chooseDeviceGpu . ";
+}
+.grid-cl-chooseDeviceCpu{
+	grid-area: grid-cl-chooseDeviceCpu;	
+	font-size:30px;
+}
+.grid-cl-chooseDeviceGpu{
+	grid-area: grid-cl-chooseDeviceGpu;	
+	font-size:30px;
+}
+
+.grid-cl-miningControl{
+	grid-area: grid-cl-miningControl;	
+	display: grid;   grid-template-columns: 2fr 1fr 1fr 1fr 2fr;   grid-template-rows: auto;
+	grid-template-areas:
+		".  grid-cl-miningControlStart .  grid-cl-miningControlStop . ";
+}
+.grid-cl-miningControlStart{
+	grid-area: grid-cl-miningControlStart;	
+	font-size:30px;
+}
+.grid-cl-miningControlStop{
+	grid-area: grid-cl-miningControlStop;	
+	font-size:30px;
+}
+
+.grid-cl-device{
+	grid-area: grid-cl-device;	
+	display: grid;   grid-template-columns: 1fr;   grid-template-rows: auto  ;
+	grid-template-areas:
+		"grid-cl-deviceCpu"
+		"grid-cl-deviceGpu"	;
+}
+.grid-cl-deviceCpu{
+	grid-area: grid-cl-deviceCpu;	 
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 50px;	border-radius: 50px; 	background:#555;	margin:10px 4%;
+	display: grid;   grid-template-columns: 1fr;   grid-template-rows: auto auto auto auto;
+	grid-template-areas:
+		"grid-header"
+		"grid-cl-deviceInfo"
+		"grid-cl-deviceSettingsCpu"; 
+		
+}
+.grid-cl-deviceGpu{
+	grid-area: grid-cl-deviceGpu;	
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 50px;	border-radius: 50px; 	background:#555;	margin:10px 4%;
+	display: grid;   grid-template-columns: 1fr;   grid-template-rows: auto auto auto auto;
+	grid-template-areas:
+		"grid-header"
+		"grid-cl-deviceInfo"
+		"grid-cl-deviceSettingsGpu"; 
+}
+
+.grid-cl-deviceInfo{
+	grid-area: grid-cl-deviceInfo;	
+	text-align:left;
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 30px;	border-radius: 20px;	background:#999;	margin:10px 4%;
+}
+.grid-cl-deviceSettingsCpu{
+	grid-area: grid-cl-deviceSettingsCpu;	
+	text-align:left;
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 30px;	border-radius: 20px;	background:#999;	margin:10px 10%; 
+}
+
+.grid-cl-deviceSettingsGpu{
+	grid-area: grid-cl-deviceSettingsGpu;	
+	text-align:left;
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 30px;	border-radius: 20px;	background:#999;	margin:10px 10%;
+}
+
+.grid-cl-deviceCpuStats{
+	grid-area: grid-cl-deviceCpuStats;	
+}
+
+.grid-cl-deviceGpuStats{
+	grid-area: grid-cl-deviceGpuStats;	
+}
+
+.grid-cl-miningPoolStatsSub{
+	grid-area: grid-cl-miningPoolStats;	
+}
+#deviceCpuStats{
+	-webkit-border-radius: 10px;	border:medium; border-color: #222; 	background:#222; border-radius: 50px;	margin:10px 10px; padding: 10px 10px;
+	display: grid;   grid-template-columns: 1fr 2fr 1fr 2fr 1fr 2fr 1fr;   grid-template-rows:  auto auto;
+	grid-template-areas:
+		"grid-header grid-header grid-header grid-header grid-header grid-header grid-header"
+		". deviceCpuStatsHashrate . deviceCpuStatsTemp . deviceCpuStatsUsage .";
+		
+}
+
+#deviceCpuStatsHashrate{
+	grid-area: deviceCpuStatsHashrate;	
+	display: grid;   grid-template-columns: auto auto;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header grid-header"
+		"grid-subheader grid-subheader"
+		"cpuCore0 cpuCore4"
+		"cpuCore1 cpuCore5"
+		"cpuCore2 cpuCore6"
+		"cpuCore3 cpuCore7";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+#deviceCpuStatsTemp{
+	grid-area: deviceCpuStatsTemp;	
+	display: grid;   grid-template-columns: auto auto;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header grid-header"
+		"grid-subheader grid-subheader"
+		"cpuCore0 cpuCore4"
+		"cpuCore1 cpuCore5"
+		"cpuCore2 cpuCore6"
+		"cpuCore3 cpuCore7";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+#deviceCpuStatsUsage{
+	grid-area: deviceCpuStatsUsage;	
+	display: grid;   grid-template-columns: auto auto;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header grid-header"
+		"grid-subheader grid-subheader"
+		"cpuCore0 cpuCore4"
+		"cpuCore1 cpuCore5"
+		"cpuCore2 cpuCore6"
+		"cpuCore3 cpuCore7";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+
+#deviceGpuStats{
+	-webkit-border-radius: 10px;	border:medium; border-color: #222; 	background:#222; border-radius: 50px;	margin:10px 10px; padding: 10px 10px;
+	display: grid;   grid-template-columns:1fr 2fr 1.5fr 1fr 1.5fr 1fr 1.5fr 1fr;   grid-template-rows:  auto auto;
+	grid-template-areas:
+		" grid-header grid-header grid-header grid-header grid-header grid-header grid-header grid-header"
+		" . deviceGpuStatsHashrate deviceGpuStatsClock . deviceGpuStatsTemp . deviceGpuStatsFan . ";
+		
+}
+
+#deviceGpuStatsHashrate{
+	grid-area: deviceGpuStatsHashrate;	
+	display: grid;   grid-template-columns: auto  auto;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header grid-header"
+		"grid-subheader grid-subheader"
+		"cpuCore0 cpuCore4"
+		"cpuCore1 cpuCore5"
+		"cpuCore2 cpuCore6"
+		"cpuCore3 cpuCore7";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+#deviceGpuStatsClock{
+	grid-area: deviceGpuStatsClock;	
+	display: grid;   grid-template-columns: auto  ;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header "
+		"cpuCore0 "
+		"cpuCore1 "
+		"cpuCore2 "
+		"cpuCore3 ";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+#deviceGpuStatsTemp{
+	grid-area: deviceGpuStatsTemp;	
+	display: grid;   grid-template-columns: auto  ;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header "
+		"cpuCore0 "
+		"cpuCore1 "
+		"cpuCore2 "
+		"cpuCore3 ";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+#deviceGpuStatsFan{
+	grid-area: deviceGpuStatsFan;	
+	display: grid;   grid-template-columns: auto ;   grid-template-rows: repeat(6,auto);
+	grid-template-areas:
+		"grid-header "
+		"cpuCore0 "
+		"cpuCore1 "
+		"cpuCore2 "
+		"cpuCore3 ";
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#999;	margin:10px 10px; padding: 0px 10px 10px 10px;
+}
+
+.grid-cl-miningSettings{
+	grid-area: grid-cl-miningSettings;	 
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 50px;	border-radius: 50px; 	background:#555;	margin:10px 4%;
+	display: grid;   grid-template-columns: 1fr;   grid-template-rows: auto ;
+	grid-template-areas:
+		"grid-header"
+		"grid-cl-miningSettingsPool"; 
+}
+
+.grid-cl-miningStats{
+	grid-area: grid-cl-miningStats;	 
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 50px;	border-radius: 50px; 	background:#555;	margin:10px 4%;
+	display: grid;   grid-template-columns: 1fr;   grid-template-rows: auto auto auto auto auto ;
+	grid-template-areas:
+		"grid-header"	
+		"grid-cl-consoleOutput"
+		"grid-cl-miningStatsPool"
+		"grid-cl-deviceCpuStats"	
+		"grid-cl-deviceGpuStats"; 
+}
+
+.grid-cl-consoleOutput{
+	-webkit-border-radius: 10px;	border:medium; border-color: #222; 	background:#222; border-radius: 50px;	margin:10px 50px; padding: 10px 10px;
+	display: grid;   grid-template-columns: 1fr ;   grid-template-rows:  auto ;
+	grid-template-areas:
+		".";
+		
+}
+
+.grid-cl-miningStatsPoolSub{
+	grid-area: grid-cl-miningStatsPool;	
+	-webkit-border-radius: 10px;	border:medium; border-color: #222; 	background:#222; border-radius: 50px;	margin:10px 10px; padding: 10px 10px;
+	display: grid;   grid-template-columns: 1fr;   grid-template-rows:  auto auto;
+	grid-template-areas:
+		"grid-header"
+		".";
+		
+}
+.grid-cl-miningSettingsPool{
+	grid-area: grid-cl-miningSettingsPool;	
+	text-align:left;
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 30px;	border-radius: 20px;	background:#999;	margin:10px 4%; padding: 1% 0px;
+}
+
+.grid-cl-col1{
+	grid-area: grid-cl-col1;	
+}
+.grid-cl-col2{
+	grid-area: grid-cl-col2;	
+}
+.grid-cl-col3{
+	grid-area: grid-cl-col3;	
+}
+.grid-cl-col4{
+	grid-area: grid-cl-col4;	
+}
+.grid-cl-col5{
+	grid-area: grid-cl-col5;	
+}
+.grid-cl-col6{
+	grid-area: grid-cl-col6;	
+}
+.grid-cl-col7{
+	grid-area: grid-cl-col7;	
+}
+.grid-cl-col8{
+	grid-area: grid-cl-col8;	
+}
+
+.grid-cl-footer{
+	grid-area: grid-cl-footer;		
+	border-width:medium;    border-style: solid;    border-color: black;
+	-webkit-border-radius: 50px;	border-radius: 50px; 	background:#555;	margin:10px 10px; 
+    color: white; text-align: center; font-size:24px; 
+	height:50px;
+}
+
+.grid-header{
+	color:#FFF;
+	grid-area: grid-header;	
+	-webkit-border-radius: 10px;	border-radius: 10px;	background:#666;	margin:10px 5%;
+	text-align:center;
+}
+
+.grid-subheader{
+	color:#000;
+	grid-area: grid-subheader;	
+	text-align:center;
+}
+
 li{
 	list-style: none;
-}
-.cpuCoreWrapper{
-	display: grid;
-  	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  	grid-template-rows: 60px;
-  	grid-gap: 10px;
-	grid-template-areas:
-        "cpuCore0 cpuCore1 cpuCore2 cpuCore3 cpuCore4 cpuCore5 cpuCore6 cpuCore7";
 }
 .cpuCore{
 	border-width:thin;
     border-style: solid;
-    border-color: black;
+    border-color: white;
     text-align: center;
+	min-height:20px;
 }
 
 .cpuCore0{
@@ -45,40 +355,6 @@ li{
 	grid-area: cpuCore7;
 }
 
-.wrapper{
-    background-color:white;
-	display: grid;
-  	grid-template-columns: 1fr 1fr 1fr 1fr;
-  	grid-template-rows: 200px;
-  	grid-gap: 10px;
-	grid-template-areas:
-        "grid1 grid2 grid3 grid4";
-}
-.grid{
-	border-width:thin;
-    border-style: solid;
-    border-color: black;
-}
-.grid1{
-	grid-area: grid1;
-}
-.grid2{
-	grid-area: grid2;
-}
-.grid3{
-	grid-area: grid3;
-}
-.grid4{
-	grid-area: grid4;
-}
-
-.btn {
-    border: none; /* Remove borders */
-    color: white; /* Add a text color */
-    padding: 14px 28px; /* Add some padding */
-    cursor: pointer; /* Add a pointer cursor on mouse-over */
-}
-
 .success {background-color: #4CAF50;} /* Green */
 .success:hover {background-color: #46a049;}
 
@@ -94,10 +370,112 @@ li{
 .default {background-color: #e7e7e7; color: black;} /* Gray */ 
 .default:hover {background: #ddd;}
 
-.clearfix:after { 
-	content: "."; 
-	visibility: hidden; 
-	display: block; 
-	height: 0; 
-	clear: both;
- }
+ 
+.btn {
+  display: inline-block;
+  padding: 15px 25px;
+  width:1fr;
+  height:1fr;
+  margin-bottom: 10px ;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #005;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.btn:hover {background-color: #030}
+
+.deviceActive {
+  background-color: #030;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.btngreen {
+  display: inline-block;
+  padding: 15px 25px;
+  width:1fr;
+  height:1fr;
+  margin-bottom: 10px ;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #050;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.btngreen:hover {background-color: #030}
+
+.miningActive {
+  background-color: #030;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.btnred {
+  display: inline-block;
+  padding: 15px 25px;
+  width:1fr;
+  height:1fr;
+  margin-bottom: 10px ;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #500;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.btnred:hover {background-color: #300}
+
+.btnred:active {
+  background-color: #030;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.miningDeactive {
+  background-color: #300;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 115%;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+input[type='checkbox']{
+	text-align:center;
+}
