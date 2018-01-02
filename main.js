@@ -1,6 +1,6 @@
 
 const pathWinCcminerX86 = 'https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x86-2.2.3-cuda9.7z';
-const pathWinCcminerX64 = 'https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x64-2.2.3-cuda9.7z';
+const pathWinCcminerX64 = 'https://github.com/dallar-project/ccminer/files/1596594/ccminer-x64.zip';
 const pathWinCpuMinerX64 = 'https://github.com/tpruvot/cpuminer-multi/releases/download/v1.3.1-multi/cpuminer-multi-rel1.3.1-x64.zip';
 
 var gpuMinerPath = '',cpuMinerPath ='';
@@ -116,6 +116,7 @@ function initialSetup(){
     if (!fs.existsSync(__dirname+'/miners/')){
         fs.mkdirSync(__dirname+'/miners/');
         //alert("Setting up folder structure");
+        console.log("Creating Directories...");
     }else
     {
         console.log("/miners/ Directory already exist");
@@ -139,14 +140,14 @@ function initialSetup(){
         if (deviceGpuInfoVendor == 'NVIDIA'){
             if (sysPlatformArch == 'x64'){
 
-                gpuMinerPath = 'ccminer-x64.exe';
+                gpuMinerPath = 'ccminer.exe';
                 
                 if (!fs.existsSync(__dirname+'/miners/ccminer/'+gpuMinerPath)){
                     downloadFromInternet(pathWinCcminerX64,__dirname+'/miners/ccminer/','ccminer.7z');//unzips
                     console.log("Downloading" +gpuMinerPath.toString());
                 }
                 else
-                    console.log("Already exsists" +gpuMinerPath.toString());
+                    console.log("Already have " +gpuMinerPath.toString());
             }
             else if(sysPlatformArch == 'x32'){
                 
@@ -157,14 +158,13 @@ function initialSetup(){
                     console.log("Downloading" +gpuMinerPath.toString());
                 }
                 else
-                    console.log("Already exsists" +gpuMinerPath.toString());
+                    console.log("Already have " +gpuMinerPath.toString());
             }
         }
         else if (deviceGpuInfoVendor == 'AMD'){
             //load AMD miner here
         }
         //CPU 
-        console.log(deviceCpuInfoBrand);
         if ( sysPlatformArch == 'x64' || sysPlatformArch == 'x86') {
             if ( deviceCpuInfoBrand.includes('Core',0) && deviceCpuInfoBrand.includes('i7',0))
                 cpuMinerPath = 'cpuminer-gw64-corei7.exe';
@@ -509,13 +509,9 @@ ipcMain.on('startMining', function(e,data){
             //%d miner thread%s started, using %s algorithm.
             updateHTML();
         
-
-        
     };
 
     //runs ccminer through CMD
-
-
     if ( miningDevice == 'GPU'){
         console.log(__dirname+'/miners/ccminer/' + gpuMinerPath + options);
        nrc.run(__dirname+'/miners/ccminer/' + gpuMinerPath + options ,    { cwd: __dirname+'/miners/ccminer/', onData: dataCallback });    

@@ -1,7 +1,7 @@
 # MinerWrapper
 ----------
 
-A Miner Wrapper for GPU: NIVIDA, AMD and CPU support For mining Dallar 
+A Miner Wrapper for GPU: NIVIDA, (AMD) and CPU support For mining Dallar 
 
 This Wrapper incorprates
 
@@ -47,3 +47,11 @@ add node support
  - systeminformation
 	 - OSX: [osx-temperature-sensor (1.0.1)](https://www.npmjs.com/package/osx-temperature-sensor) 
 	 - LINUX: '$ sudo apt-get install lm-sensors'
+
+
+
+      
+         
+         
+  
+         
