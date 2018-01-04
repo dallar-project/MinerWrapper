@@ -2,6 +2,7 @@
 const pathWinCcminerX86 = 'https://github.com/tpruvot/ccminer/releases/download/2.2.3-tpruvot/ccminer-x86-2.2.3-cuda9.7z';
 const pathWinCcminerX64 = 'https://github.com/dallar-project/ccminer/files/1596594/ccminer-x64.zip';
 const pathWinCpuMinerX64 = 'https://github.com/tpruvot/cpuminer-multi/releases/download/v1.3.1-multi/cpuminer-multi-rel1.3.1-x64.zip';
+const pathWinSgMinerX86 = 'https://github.com/dallar-project/sgminer/releases/download/d1.0/sgminer-x86.zip';
 
 var gpuMinerPath = '',cpuMinerPath ='';
 
@@ -133,6 +134,12 @@ function initialSetup(){
     {
         console.log("/miners/cpuminer/ Directory already exist");
     }
+    if (!fs.existsSync(__dirname+'/miners/sgminer/')){
+        fs.mkdirSync(__dirname+'/miners/sgminer/');
+    }else
+    {
+        console.log("/miners/sgminer/ Directory already exist");
+    }
 //download required miners
 
     if (sysPlatform == 'Windows'){
@@ -149,7 +156,7 @@ function initialSetup(){
                 else
                     console.log("Already have " +gpuMinerPath.toString());
             }
-            else if(sysPlatformArch == 'x32'){
+            else if(sysPlatformArch == 'x32' || sysPlatformArch == 'x86'){
                 
                 gpuMinerPath = 'ccminer.exe';
                 
@@ -163,6 +170,17 @@ function initialSetup(){
         }
         else if (deviceGpuInfoVendor == 'AMD'){
             //load AMD miner here
+            if(sysPlatformArch == 'x32' || sysPlatformArch == 'x86' ){
+                
+                sgMinerPath = 'sgminer.exe';
+                
+                if (!fs.existsSync(__dirname+'/miners/sgminer/'+sgMinerPath)){
+                    downloadFromInternet(pathWinSgMinerX86,__dirname+'/miners/sgminer/','sgminer-x86.zip');//unzips
+                    console.log("Downloading" +sgMinerPath.toString());
+                }
+                else
+                    console.log("Already have " +sgMinerPath.toString());
+            }
         }
         //CPU 
         if ( sysPlatformArch == 'x64' || sysPlatformArch == 'x86') {
@@ -364,6 +382,7 @@ ipcMain.on('startMining', function(e,data){
     options = options.concat(' -o ', data[0].miningSettingsPool);
     options = options.concat(' -u ', data[0].miningSettingsUsername);
     options = options.concat(' -p ', data[0].miningSettingsPassword);
+
     if ( miningDevice == "CPU"){
         options = options.concat(' -a ', data[0].miningSettingsAlgoCPU);
 
@@ -381,11 +400,13 @@ ipcMain.on('startMining', function(e,data){
             options = options.concat(' --randomize ');
 
     }
-    if ( miningDevice == "GPU"){
+    if ( miningDevice == "GPU" && deviceGpuInfoVendor == 'NVIDIA'){
         options = options.concat(' -a ', data[0].miningSettingsAlgoGPU);
         
         if (data[0].opt_miningSettingsGpuLaunchConfig.toString() == "true")
             options = options.concat(' -l ', data[0].miningSettingsGpuLaunchConfig);
+        if (data[0].opt_miningSettingsGpuIntensity.toString() == "true")
+            options = options.concat(' -i ', data[0].miningSettingsGpuIntensity);
         if (data[0].opt_miningSettingsGpuDiffMultiplier.toString() == "true")
             options = options.concat(' --diff-multiplier ', data[0].miningSettingsGpuDiffMultiplier);
         if (data[0].opt_miningSettingsGpuDiffFactor.toString() == "true")
@@ -410,10 +431,80 @@ ipcMain.on('startMining', function(e,data){
             options = options.concat(' --time-limit ', data[0].miningSettingsGpuTimeLimit);
         if (data[0].opt_miningSettingsGpuSharesLimit.toString() == "true")
             options = options.concat(' --shares-limit ', data[0].miningSettingsGpuSharesLimit);
+        if (data[0].opt_miningSettingsRetries.toString() == "true")
+         options = options.concat(' --retries ', data[0].miningSettingsRetries);
+
+            //-x, --proxy=[PROTOCOL://]HOST[:PORT]  connect through a proxy
+            //
+            //there are more....
+    }
+    if ( miningDevice == "GPU" && deviceGpuInfoVendor == 'AMD'){
+        //AMD Settings go here
+        //here are some that should be implemented first
+        
+        options = options.concat(' --algorithm ', data[0].miningSettingsAlgoGPU);
+
+        if (data[0].opt_miningSettingsGpuIntensity.toString() == "true")
+            options = options.concat(' -I ', data[0].miningSettingsGpuIntensity);//Intensity of GPU scanning (d or 8 -> 31,default: d to maintain desktop interactivity), overridden by --xintensity or --rawintensity.
+        if (data[0].opt_miningSettingsGpuDiffMultiplier.toString() == "true")
+            options = options.concat(' --difficulty-multiplier ', data[0].miningSettingsGpuDiffMultiplier);//--difficulty-multiplier <arg> (deprecated) Difficulty multiplier for jobs received from stratum pools
+        if (data[0].opt_miningSettingsGpuMaxTemp.toString() == "true")
+            options = options.concat(' --temp-cutoff ', data[0].miningSettingsGpuMaxTemp);//--temp-cutoff <arg> Temperature which a device will be automatically disabled at, one value or comma separated list (default: 95)
+        if (data[0].opt_miningSettingsGpuSharesLimit.toString() == "true")
+            options = options.concat(' --shares ', data[0].miningSettingsGpuSharesLimit);//Quit after mining N shares (default: unlimited
+        if (data[0].opt_miningSettingsGpuMemClock.toString() == "true")
+            options = options.concat(' --gpu-memclock ', data[0].miningSettingsGpuMemClock);//Set the GPU memory (over)clock in Mhz - one value for all or separate by commas for per card
+        if (data[0].opt_miningSettingsGpuClock.toString() == "true")
+            options = options.concat(' --gpu-engine ', data[0].miningSettingsGpuClock);//GPU engine (over)clock range in Mhz - one value, range and/or comma separated list (e.g. 850-900,900,750-850)
+
+    options = options.concat(' --no-submit-stale ');
+        //--no-submit-stale
+        //--log-show-date
+        //-g
+        //--gpu-threads|-g <arg> Number of threads per GPU - one value or comma separated list (e.g. 1,2,1)
+        //-w
+        //--worksize|-w <arg> Override detected optimal worksize - one value or comma separated list
+
+        //--grs-address <arg> Set dallar target address when solo mining to dallard (mandatory)
+        /*
+            
+            --auto-fan          Automatically adjust all GPU fan speeds to maintain a target temperature
+            --auto-gpu          Automatically adjust all GPU engine clock speeds to maintain a target temperature
+                --temp-overheat <arg> Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85)
+                --temp-target <arg> Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75)
+                --temp-hysteresis <arg> Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3)
+                --gpu-memdiff <arg> Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode
+                
+            --balance           Change multipool strategy from failover to even share balance
+            --device|-d <arg>   Select device to use, one value, range and/or comma separated (e.g. 0-2,4) default: all
+            --gpu-dyninterval <arg> Set the refresh interval in ms for GPUs using dynamic intensity (default: 7)
+            --gpu-platform <arg> Select OpenCL platform ID to use for GPU mining (default: -1)
+            --gpu-fan <arg>     GPU fan percentage range - one value, range and/or comma separated list (e.g. 0-85,85,65)
+            --gpu-map <arg>     Map OpenCL to ADL device order manually, paired CSV (e.g. 1:0,2:1 maps OpenCL 1 to ADL 0, 2 to 1)
+            --gpu-powertune <arg> Set the GPU powertune percentage - one value for all or separate by commas for per card
+            --gpu-reorder       Attempt to reorder GPU devices according to PCI Bus ID
+            --gpu-vddc <arg>    Set the GPU voltage in Volts - one value for all or separate by commas for per card
+            
+            --xintensity|-X <arg> Shader based intensity of GPU scanning (1 to 9999), overridden --xintensity|-X and --rawintensity.
+            --rawintensity <arg> Raw intensity of GPU scanning (1 to 2147483647), overrides --intensity|-I and --xintensity|-X.
+            
+            --net-delay         Impose small delays in networking to not overload slow routers
+            
+            --per-device-stats  Force verbose mode and output per-device statistics
+
+            --protocol-dump|-P  Verbose dump of protocol-level activities
+
+            --sched-start <arg> Set a time of day in HH:MM to start mining (a once off without a stop time)
+            --sched-stop <arg>  Set a time of day in HH:MM to stop mining (will quit without a start time)
+            
+            --socks-proxy <arg> Set socks4 proxy (host:port)
+            --show-coindiff     Show coin difficulty rather than hash value of a share
+
+            
+        */
     }
 
-    if (data[0].opt_miningSettingsRetries.toString() == "true")
-        options = options.concat(' --retries ', data[0].miningSettingsRetries);
+
     
     options = options.concat(' --no-color ');
 
@@ -429,92 +520,100 @@ ipcMain.on('startMining', function(e,data){
 
         //parse output for CPUminer
         miningStatsTimestamp = sscanf(data.toString(),'[%d-%d-%d %d:%d:%d]','year','month','day','hour','miunte','second');//year,month,day hour:miunte:second
-            //console.log(timestamp);
-        var message = data.slice(data.search("]")+2)
-        // console.log(message);
+        var message = data.slice(data.search("]")+2);   //remove timestamp
         
-            // message = stdout with out timestamp
-            if (message.search("CPU") !== -1){
-                var cpuHash = sscanf(message.toString(),'CPU #%d: %f %s','core','hashRate','unit');
+        // message = stdout with out timestamp
+        if (message.search("CPU") !== -1){
+            var cpuHash = sscanf(message.toString(),'CPU #%d: %f %s','core','hashRate','unit');
 
-                deviceCpuStatsHashrateCore[cpuHash.core] = [cpuHash.hashRate, cpuHash.unit];
-            }
-            if (message.search("Stratum difficulty") !== -1){
-                var stratumDiff = sscanf(message.toString(),'Stratum difficulty set to %d (%f)','stratum_diff','targetdiff');
-                miningStatsStratumDiff = stratumDiff;
-            }
-            if (message.search("accepted:") !== -1){
-                var accepted = sscanf(message.toString(),'accepted: %u/%u (diff %f), %f %s %s%s','accepted_count' , 'total_count' , 'sharediff' , 'hashrate','hashrateunit', 'flag', 'solved');
-                miningStatsPoolCpuAccepted = accepted;
-            }
-            if (message.search(" block ") !== -1){
-                var accepted = sscanf(message.toString(),'%s block %d, diff %f'  ,	'algo_name', 'block_number', 'netinfo');
-                miningStatsPoolBlock = accepted;
-            }
-            
-            // posible messages from CCminer
+            deviceCpuStatsHashrateCore[cpuHash.core] = [cpuHash.hashRate, cpuHash.unit];
+        }
+        if (message.search("Stratum difficulty") !== -1){
+            var stratumDiff = sscanf(message.toString(),'Stratum difficulty set to %d (%f)','stratum_diff','targetdiff');
+            miningStatsStratumDiff = stratumDiff;
             /*
-                LOG_ERR
-                                // LoOk into      reject reason: low difficulty share of 1.4728836769975157e-7
-                LOG_INFO
-                    "Adding %u threads to intensity %u, %u cuda threads"    ,   adds, v, gpus_intensity[n]
-                    "NVML GPU monitoring enabled."
-                    "NVAPI GPU monitoring enabled."
-                    "GPU monitoring is not available."
-                    "%d miner thread%s started, using '%s' algorithm."      ,   opt_n_threads, opt_n_threads > 1 ? "s":"",  algo_names[opt_algo]
-                LOG_NOTICE
-                    "accepted: %lu/%lu (%s), %s %s%s"   ,   accepted_count , (accepted_count+rejected_count) , suppl , hashrate, flag, solved;
-                                                                suppl       =   "diff %.3f"         ,   sharediff
-                                                                           |=   "%.2f%%"            ,   100. * accepted_count / (accepted_count + rejected_count))
-                                                                hashrate    =   %f %s 
-                                                                flag        =   "YAY" | "BOO"
-                                                                solved      =   " solved: %u"       ,   solved_count
-                LOG_BLUE
-                    "%s block %d, %s"                   ,	lgo_names[opt_algo], work->height, netinfo
-                                                                netinfo     =   "diff %.2f"         ,   net_diff
-                                                                           |=   "diff %.2f, net "   ,   net_diff,srate
-                    "Starting on %s"                    ,   stratum.url
-                LOG_WARNING
-                    "Stratum difficulty set to %g%s"    ,   stratum_diff, sdiff
-                                                                sdiff       =   " (%.5f)"           ,    work->targetdiff
-                    "Stratum connection timed out"
-                    "Stratum connection interrupted"
+            LOG_WARNING
+                "Stratum difficulty set to %g%s"    ,   stratum_diff, sdiff
+                                                            sdiff       =   " (%.5f)"           ,    work->targetdiff
             */
+        }
+        if (message.search("accepted:") !== -1){
+            var accepted = sscanf(message.toString(),'accepted: %u/%u (diff %f), %f %s %s%s','accepted_count' , 'total_count' , 'sharediff' , 'hashrate','hashrateunit', 'flag', 'solved');
+            miningStatsPoolCpuAccepted = accepted;
+            /*
+            LOG_NOTICE
+                "accepted: %lu/%lu (%s), %s %s%s"   ,   accepted_count , (accepted_count+rejected_count) , suppl , hashrate, flag, solved;
+                                                            suppl       =   "diff %.3f"         ,   sharediff
+                                                                        |=   "%.2f%%"            ,   100. * accepted_count / (accepted_count + rejected_count))
+                                                            hashrate    =   %f %s 
+                                                            flag        =   "YAY" | "BOO"
+                                                            solved      =   " solved: %u"       ,   solved_count
+            */
+        }
+        if (message.search(" block ") !== -1){
+            var accepted = sscanf(message.toString(),'%s block %d, diff %f'  ,	'algo_name', 'block_number', 'netinfo');
+            miningStatsPoolBlock = accepted;
+            /*
+            LOG_BLUE
+                "%s block %d, %s"                   ,	lgo_names[opt_algo], work->height, netinfo
+                                                            netinfo     =   "diff %.2f"         ,   net_diff
+                                                                        |=   "diff %.2f, net "   ,   net_diff,sr
+            */
+        }
+        
+        // posible messages from CCminer
+        /*
+            LOG_ERR
+                            // LoOk into      reject reason: low difficulty share of 1.4728836769975157e-7
+            LOG_INFO
+                "Adding %u threads to intensity %u, %u cuda threads"    ,   adds, v, gpus_intensity[n]
+                "NVML GPU monitoring enabled."
+                "NVAPI GPU monitoring enabled."
+                "GPU monitoring is not available."
+                "%d miner thread%s started, using '%s' algorithm."      ,   opt_n_threads, opt_n_threads > 1 ? "s":"",  algo_names[opt_algo]
+            LOG_BLUE
+                "Starting on %s"                    ,   stratum.url
+            LOG_WARNING
+                "Stratum connection timed out"
+                "Stratum connection interrupted"
+        */
 
 
-            //GPU #0: Intensity set to 19, 524288 cuda threads
-            if (message.search("GPU") !== -1 && message.search(": Intensity set to ") !== -1) {
-                var gpuSettings = sscanf(message.toString(),'GPU #%d: Intensity set to %d, %u cuda threads','core','intensity','cudaThreads');
-                mainWindow.webContents.send('miningStatsGpuSettings', gpuSettings);
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    console.log(gpuSettings);
-            }
-            //GPU #0: EVGA GTX 750 Ti, 5989.90 kH/s
-            if (message.search("GPU") !== -1 && message.search("kH/s") !== -1) {
-                var gpuHash = [];
-                gpuHash = gpuHash.concat(sscanf(message.toString(),'GPU #%d:','core').core);
-                message = message.slice(message.search(","));
-                gpuHash = gpuHash.concat(sscanf(message,' %f %s','hashRate','unit').hashRate,sscanf(message,' %f %s','hashRate','unit').unit);
-                
-                deviceGpuStatsHashrate[gpuHash[0]] = [gpuHash[1], gpuHash[2]];
-            }
-            //GPU #0: 1161 MHz 60.91 MH/W 0W 48C FAN 42%
-            if (message.search("GPU") !== -1 && message.search("Hz") !== -1 && message.search("H/W") !== -1) {
-                var gpuStats = [];
-                gpuStats = sscanf(message.toString(),'GPU #%d: %d %s %f %s %f%s %f%s %s %d%','core','clockSpeed','clockUnits','hashWattRate','hashWattRateUnits','unk1','unk2','temp','tempUnits','fan','fanSpeedPercent');
-                console.log(gpuStats);
-                deviceGpuStats[gpuStats.core] = gpuStats;
-                    console.log(deviceGpuStats);
-            }
-            //%d miner thread%s started, using %s algorithm.
-            updateHTML();
+        //GPU #0: Intensity set to 19, 524288 cuda threads
+        if (message.search("GPU") !== -1 && message.search(": Intensity set to ") !== -1) {
+            var gpuSettings = sscanf(message.toString(),'GPU #%d: Intensity set to %d, %u cuda threads','core','intensity','cudaThreads');
+            mainWindow.webContents.send('miningStatsGpuSettings', gpuSettings);
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                console.log(gpuSettings);
+        }
+        //GPU #0: EVGA GTX 750 Ti, 5989.90 kH/s
+        if (message.search("GPU") !== -1 && message.search("kH/s") !== -1) {
+            var gpuHash = [];
+            gpuHash = gpuHash.concat(sscanf(message.toString(),'GPU #%d:','core').core);
+            message = message.slice(message.search(","));
+            gpuHash = gpuHash.concat(sscanf(message,' %f %s','hashRate','unit').hashRate,sscanf(message,' %f %s','hashRate','unit').unit);
+            deviceGpuStatsHashrate[gpuHash[0]] = [gpuHash[1], gpuHash[2]];
+        }
+        //GPU #0: 1161 MHz 60.91 MH/W 0W 48C FAN 42%
+        if (message.search("GPU") !== -1 && message.search("Hz") !== -1 && message.search("H/W") !== -1) {
+            var gpuStats = [];
+            gpuStats = sscanf(message.toString(),'GPU #%d: %d %s %f %s %f%s %f%s %s %d%','core','clockSpeed','clockUnits','hashWattRate','hashWattRateUnits','unk1','unk2','temp','tempUnits','fan','fanSpeedPercent');
+            console.log(gpuStats);
+            deviceGpuStats[gpuStats.core] = gpuStats;
+                console.log(deviceGpuStats);
+        }
+        updateHTML();
         
     };
 
-    //runs ccminer through CMD
-    if ( miningDevice == 'GPU'){
+    //runs through CMD
+    if ( miningDevice == 'GPU' && deviceGpuInfoVendor == 'NVIDIA'){
         console.log(__dirname+'/miners/ccminer/' + gpuMinerPath + options);
        nrc.run(__dirname+'/miners/ccminer/' + gpuMinerPath + options ,    { cwd: __dirname+'/miners/ccminer/', onData: dataCallback });    
+    }
+    else if ( miningDevice == 'GPU' && deviceGpuInfoVendor == 'AMD'){
+        console.log(__dirname+'/miners/sgminer/' + sgMinerPath + options);
+       nrc.run(__dirname+'/miners/sgminer/' + sgMinerPath + options ,    { cwd: __dirname+'/miners/sgminer/', onData: dataCallback });   //perhaps create another data callback for sgminer 
     }
     else if (  miningDevice == 'CPU'){
        console.log(__dirname+'/miners/cpuminer/' + cpuMinerPath + options );
@@ -538,7 +637,6 @@ ipcMain.on('stopMining', function(e){
         deviceGpuStatsHashrate[i] = ['', ''];
         deviceCpuStatsHashrateCore[i] = ['', ''];
     }
-    
 });
 
 

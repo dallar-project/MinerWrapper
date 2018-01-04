@@ -423,14 +423,65 @@
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Number of miner threads (default: number of nVidia GPUs)</span></div></td>
                         </tr>
                         <tr>
+                            <td><strong>Intensity:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuIntensity" checked></td>
+                            <td><input type="number" name ="miningSettingsGpuIntensity" value="auto" style="text-align:center" value="15" min="8" max="31"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">
+                                    [NIVIDA] Sets the intensity from 8-31.<br>
+                                    [AMD] Intensity of GPU scanning (d or 8 -> 31,default: d to maintain desktop interactivity), overridden by --xintensity or --rawintensity.
+                            </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Max-temp:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMaxTemp"></td>
+                            <td><input type="number" name ="miningSettingsGpuMaxTemp" value="" style="text-align:center">&#176 C</td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">
+                                    [NIVIDA] Only mine if gpu temp is less than specified value<br>
+                                    [AMD] Temperature which a device will be automatically disabled at, one value or comma separated list (default: 95)
+                            </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diff-multiplier:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDiffMultiplier"></td>
+                            <td><input type="number" name ="miningSettingsGpuDiffMultiplier" value="1" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">
+                                    [NIVIDA] Multiply difficulty by this value (default 1.0) <br> 
+                                    [AMD] (deprecated) Difficulty multiplier for jobs received from stratum pools
+                            </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gpu-clock:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuClock"></td>
+                            <td><input type="number" name ="miningSettingsGpuClock" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">
+                                [NIVIDA] Set the gpu engine boost clock <br>
+                                [AMD] GPU engine (over)clock range in Mhz - one value, range and/or comma separated list (e.g. 850-900,900,750-850)
+                            </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mem-clock :</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemClock"></td>
+                            <td><input type="number" name ="miningSettingsGpuMemClock" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">
+                                    [NIVIDA] Set the gpu memory boost clock <br>
+                                    [AMD] Set the GPU memory (over)clock in Mhz - one value for all or separate by commas for per card
+                            </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shares-limit:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuSharesLimit"></td>
+                            <td><input type="number" name ="miningSettingsGpuSharesLimit" value="" style="text-align:center">[s]</td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Quit after mining N shares (default: unlimited)</span></div></td>
+                        </tr>
+                        <tr>
                             <td></td>
-                            <td><br><strong>Options below</strong><br><br></td>
+                            <td><br><strong>Options below for NIVIDA</strong><br><br></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td><strong>Launch-config:</strong></td>
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuLaunchConfig" checked></td>
-                            <td><input type="txt" name ="miningSettingsGpuLaunchConfig" value="auto" style="text-align:center"></td>
+                            <td><input type="text" name ="miningSettingsGpuLaunchConfig" value="auto" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">
                                     L - Legacy cards with compute 1.x
                                 <br>F - Fermi cards with compute 2.x
@@ -444,12 +495,6 @@
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDiffFactor"></td>
                             <td><input type="number" name ="miningSettingsGpuDiffFactor" value="1" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Divide difficulty by this factor (default 1.0)</span></div></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Diff-multiplier:</strong></td>
-                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDiffMultiplier"></td>
-                            <td><input type="number" name ="miningSettingsGpuDiffMultiplier" value="1" style="text-align:center"></td>
-                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Multiply difficulty by this value (default 1.0)</span></div></td>
                         </tr>
                         <tr>
                             <td><strong>CPU-priority:</strong></td>
@@ -470,34 +515,16 @@
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Number of times to retry if a network call fails<br>(default: retry indefinitely)</span></div></td>
                         </tr>
                         <tr>
-                            <td><strong>Max-temp:</strong></td>
-                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMaxTemp"></td>
-                            <td><input type="number" name ="miningSettingsGpuMaxTemp" value="" style="text-align:center">&#176 C</td>
-                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Only mine if gpu temp is less than specified value</span></div></td>
-                        </tr>
-                        <tr>
                             <td><strong>Max-diff:</strong></td>
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMaxDiff"></td>
                             <td><input type="number" name ="miningSettingsGpuMaxDiff" value="" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Only mine if net difficulty is less than specified value</span></div></td>
                         </tr>
                         <tr>
-                            <td><strong>Mem-clock boost clock:</strong></td>
-                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemClock"></td>
-                            <td><input type="number" name ="miningSettingsGpuMemClock" value="" style="text-align:center"></td>
-                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu memory boost clock</span></div></td>
-                        </tr>
-                        <tr>
                             <td><strong>Mem-clock offset:</strong></td>
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemClockOffset"></td>
                             <td><input type="number" name ="miningSettingsGpuMemClockOffset" value="" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu memory offset</span></div></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Gpu-clock:</strong></td>
-                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuClock"></td>
-                            <td><input type="number" name ="miningSettingsGpuClock" value="" style="text-align:center"></td>
-                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the gpu engine boost clock</span></div></td>
                         </tr>
                         <tr>
                             <td><strong>Plimit:</strong></td>
@@ -517,12 +544,6 @@
                             <td><input type="number" name ="miningSettingsGpuTimeLimit" value="" style="text-align:center">[s]</td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Maximum time [s] to mine before exiting the program.</span></div></td>
                         </tr>
-                        <tr>
-                            <td><strong>Shares-limit:</strong></td>
-                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuSharesLimit"></td>
-                            <td><input type="number" name ="miningSettingsGpuSharesLimit" value="" style="text-align:center">[s]</td>
-                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Maximum shares [s] to mine before exiting the program.</span></div></td>
-                        </tr>
                     </table>
                 </div>
         	</div>
@@ -534,7 +555,7 @@
         </div>
 	</div>
     
-    <div class="grid-cl-footer">https://github.com/dallar-project/MinerWrapper</div>
+    <div class="grid-cl-footer">https://github.com/dallar-project/MinerWrapper <br> Donation Dallar : DRnZzcD43P73vnd7PRGZThVA2fWRVVKU8h</div>
 </div>
 
 <script>
@@ -570,7 +591,8 @@ var 	$miningSettingsRetries;
 
 var	$opt_miningSettingsGpuThreads;
 var		$miningSettingsGpuThreads;
-
+var $opt_miningSettingsGpuIntensity;
+var     miningSettingsGpuIntensity;
 
 var $opt_miningSettingsGpuLaunchConfig
 var     $miningSettingsGpuLaunchConfig
@@ -817,6 +839,8 @@ function sendVariables(){
         
         "opt_miningSettingsGpuLaunchConfig":    $('input[name=opt_miningSettingsGpuLaunchConfig]').is(':checked'),
         "miningSettingsGpuLaunchConfig" :        $('input[name=miningSettingsGpuLaunchConfig]').val(),
+        "opt_miningSettingsGpuIntensity":       $('input[name=opt_miningSettingsGpuIntensity]').is(':checked'),
+        "miningSettingsGpuIntensity":            $('input[name=miningSettingsGpuIntensity]').val(),
         "opt_miningSettingsGpuDiffMultiplier":   $('input[name=opt_miningSettingsGpuDiffMultiplier]').is(':checked'),
         "miningSettingsGpuDiffMultiplier":       $('input[name=miningSettingsGpuDiffMultiplier]').val(),
         "opt_miningSettingsGpuDiffFactor":       $('input[name=opt_miningSettingsGpuDiffFactor]').is(':checked'),
