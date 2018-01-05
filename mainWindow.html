@@ -425,9 +425,10 @@
                         <tr>
                             <td><strong>Intensity:</strong></td>
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuIntensity" checked></td>
-                            <td><input type="number" name ="miningSettingsGpuIntensity" value="auto" style="text-align:center" value="15" min="8" max="31"></td>
+                            <td><input type="range" name ="miningSettingsGpuIntensity" id="miningSettingsGpuIntensityRange" value="auto" style="text-align:center" value="15" min="8" max="31"></td>
+                            <td><div id="miningSettingsGpuIntensityNumber" style="width:40px; text-align:center" >15</div></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">
-                                    [NIVIDA] Sets the intensity from 8-31.<br>
+                                    [NVIDIA] Sets the intensity from 8-31.<br>
                                     [AMD] Intensity of GPU scanning (d or 8 -> 31,default: d to maintain desktop interactivity), overridden by --xintensity or --rawintensity.
                             </span></div></td>
                         </tr>
@@ -436,7 +437,7 @@
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMaxTemp"></td>
                             <td><input type="number" name ="miningSettingsGpuMaxTemp" value="" style="text-align:center">&#176 C</td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">
-                                    [NIVIDA] Only mine if gpu temp is less than specified value<br>
+                                    [NVIDIA] Only mine if gpu temp is less than specified value<br>
                                     [AMD] Temperature which a device will be automatically disabled at, one value or comma separated list (default: 95)
                             </span></div></td>
                         </tr>
@@ -445,7 +446,7 @@
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDiffMultiplier"></td>
                             <td><input type="number" name ="miningSettingsGpuDiffMultiplier" value="1" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">
-                                    [NIVIDA] Multiply difficulty by this value (default 1.0) <br> 
+                                    [NVIDIA] Multiply difficulty by this value (default 1.0) <br> 
                                     [AMD] (deprecated) Difficulty multiplier for jobs received from stratum pools
                             </span></div></td>
                         </tr>
@@ -454,7 +455,7 @@
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuClock"></td>
                             <td><input type="number" name ="miningSettingsGpuClock" value="" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">
-                                [NIVIDA] Set the gpu engine boost clock <br>
+                                [NVIDIA] Set the gpu engine boost clock <br>
                                 [AMD] GPU engine (over)clock range in Mhz - one value, range and/or comma separated list (e.g. 850-900,900,750-850)
                             </span></div></td>
                         </tr>
@@ -463,7 +464,7 @@
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemClock"></td>
                             <td><input type="number" name ="miningSettingsGpuMemClock" value="" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">
-                                    [NIVIDA] Set the gpu memory boost clock <br>
+                                    [NVIDIA] Set the gpu memory boost clock <br>
                                     [AMD] Set the GPU memory (over)clock in Mhz - one value for all or separate by commas for per card
                             </span></div></td>
                         </tr>
@@ -475,7 +476,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><br><strong>Options below for NIVIDA</strong><br><br></td>
+                            <td><br><strong>Options below for NVIDIA</strong><br><br></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -544,6 +545,168 @@
                             <td><input type="number" name ="miningSettingsGpuTimeLimit" value="" style="text-align:center">[s]</td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Maximum time [s] to mine before exiting the program.</span></div></td>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td><br><strong>Options below for AMD</strong><br><br></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Worksize:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuWorksize"></td>
+                            <td><input type="number" name ="miningSettingsGpuWorksize" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Override detected optimal worksize - one value or comma separated list.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>GRS-Address:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuGrsAddress"></td>
+                            <td><input type="number" name ="miningSettingsGpuGrsAddress" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set dallar target address when solo mining to dallard (mandatory).</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Auto Fan:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuAutoFan"></td>
+                            <td><input type="number" name ="miningSettingsGpuAutoFan" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Automatically adjust all GPU fan speeds to maintain a target temperature].</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Auto GPU:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuAutoGpu"></td>
+                            <td><input type="number" name ="miningSettingsGpuAutoGpu" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Automatically adjust all GPU engine clock speeds to maintain a target temperature.</span></div></td>
+                        </tr>
+                            <tr>
+                                <td><strong>Temp Overheat:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempOverheat"></td>
+                                <td><input type="number" name ="miningSettingsGpuTempOverheat" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85).</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Temp Target:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempTarget"></td>
+                                <td><input type="number" name ="miningSettingsGpuTempTarget" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75).</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Temp Hysteresis:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempHysteresis"></td>
+                                <td><input type="number" name ="miningSettingsGpuTempHysteresis" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3).</span></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mem Diff:</strong></td>
+                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemDiff"></td>
+                                <td><input type="number" name ="miningSettingsGpuMemDiff" value="" style="text-align:center"></td>
+                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode.</span></div></td>
+                            </tr>
+                        <tr>
+                            <td><strong>Balance:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuBalance"></td>
+                            <td><input type="number" name ="miningSettingsGpuBalance" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Change multipool strategy from failover to even share balance.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Device:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDevice"></td>
+                            <td><input type="number" name ="miningSettingsGpuDevice" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Select device to use, one value, range and/or comma separated (e.g. 0-2,4) default: all</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dyninterval:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuDyninterval"></td>
+                            <td><input type="number" name ="miningSettingsGpuDyninterval" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the refresh interval in ms for GPUs using dynamic intensity (default: 7)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Platform:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuPlatform"></td>
+                            <td><input type="number" name ="miningSettingsGpuPlatform" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Select OpenCL platform ID to use for GPU mining (default: -1)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fan:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuFan"></td>
+                            <td><input type="number" name ="miningSettingsGpuFan" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">GPU fan percentage range - one value, range and/or comma separated list (e.g. 0-85,85,65)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Map:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMap"></td>
+                            <td><input type="number" name ="miningSettingsGpuMap" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Map OpenCL to ADL device order manually, paired CSV (e.g. 1:0,2:1 maps OpenCL 1 to ADL 0, 2 to 1)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>PowerTune:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuPowerTune"></td>
+                            <td><input type="number" name ="miningSettingsGpuPowerTune" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the GPU powertune percentage - one value for all or separate by commas for per card.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reorder:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuReorder"></td>
+                            <td><input type="number" name ="miningSettingsGpuReorder" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Attempt to reorder GPU devices according to PCI Bus ID.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vddc:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuVddc"></td>
+                            <td><input type="number" name ="miningSettingsGpuVddc" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set the GPU voltage in Volts - one value for all or separate by commas for per card.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Xintensity:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuXintensity"></td>
+                            <td><input type="number" name ="miningSettingsGpuXintensity" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Shader based intensity of GPU scanning (1 to 9999), overridden --xintensity|-X and --rawintensity.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rawintensity:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuRawintensity"></td>
+                            <td><input type="number" name ="miningSettingsGpuRawintensity" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Raw intensity of GPU scanning (1 to 2147483647), overrides --intensity|-I and --xintensity|-X.</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>NetDelay:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuNetDelay"></td>
+                            <td><input type="number" name ="miningSettingsGpuNetDelay" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Impose small delays in networking to not overload slow routers</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>PerDeviceStats:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuPerDeviceStats"></td>
+                            <td><input type="number" name ="miningSettingsGpuPerDeviceStats" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Force verbose mode and output per-device statistics</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ProtocolDump:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuProtocolDump"></td>
+                            <td><input type="number" name ="miningSettingsGpuProtocolDump" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Verbose dump of protocol-level activities</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SchedStart:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuSchedStart"></td>
+                            <td><input type="number" name ="miningSettingsGpuSchedStart" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set a time of day in HH:MM to start mining (a once off without a stop time)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SchedStop:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuSchedStop"></td>
+                            <td><input type="number" name ="miningSettingsGpuSchedStop" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set a time of day in HH:MM to stop mining (will quit without a start time)</span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SocksProxy:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuSocksProxy"></td>
+                            <td><input type="number" name ="miningSettingsGpuSocksProxy" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Set socks4 proxy (host:port) </span></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ShowCoinDiff:</strong></td>
+                            <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuShowCoinDiff"></td>
+                            <td><input type="number" name ="miningSettingsGpuShowCoinDiff" value="" style="text-align:center"></td>
+                            <td><div class="tooltip">&#65533 <span class="tooltiptext">Show coin difficulty rather than hash value of a share </span></div></td>
+                        </tr>
+                        
                     </table>
                 </div>
         	</div>
@@ -619,7 +782,59 @@ var	$opt_miningSettingsGpuTimeLimit;
 var		$miningSettingsGpuTimeLimit;
 var	$opt_miningSettingsGpuSharesLimit;
 var		$miningSettingsGpuSharesLimit;
-
+//AMD
+var	opt_miningSettingsGpuWorksize
+var	   miningSettingsGpuWorksize
+var	opt_miningSettingsGpuGrsAddress
+var	    miningSettingsGpuGrsAddress
+var	opt_miningSettingsGpuAutoFan
+var	miningSettingsGpuAutoFan  
+var	opt_miningSettingsGpuAutoGpu  
+var	    miningSettingsGpuAutoGpu  
+var	    opt_miningSettingsGpuTempOverheat   
+var	        miningSettingsGpuTempOverheat
+var	    opt_miningSettingsGpuTempTarget
+var	        miningSettingsGpuTempTarget
+var	    opt_miningSettingsGpuTempHysteresis
+var	        miningSettingsGpuTempHysteresis
+var	    opt_miningSettingsGpuMemDiff
+var	        miningSettingsGpuMemDiff
+var	opt_miningSettingsGpuBalance 
+var	    miningSettingsGpuBalance
+var	opt_miningSettingsGpuDevice
+var	    miningSettingsGpuDevice
+var	opt_miningSettingsGpuDyninterval
+var	    miningSettingsGpuDyninterval
+var	opt_miningSettingsGpuPlatform
+var	    miningSettingsGpuPlatform
+var	opt_miningSettingsGpuFan
+var	    miningSettingsGpuFan
+var	opt_miningSettingsGpuMap
+var	    miningSettingsGpuMap
+var	opt_miningSettingsGpuPowerTune
+var	    miningSettingsGpuPowerTune
+var	opt_miningSettingsGpuReorder
+var	    miningSettingsGpuReorder
+var	opt_miningSettingsGpuVddc
+var	    miningSettingsGpuVddc
+var	opt_miningSettingsGpuXintensity
+var	    miningSettingsGpuXintensity
+var	opt_miningSettingsGpuRawintensity
+var	    miningSettingsGpuRawintensity
+var	opt_miningSettingsGpuNetDelay
+var	    miningSettingsGpuNetDelay
+var	opt_miningSettingsGpuPerDeviceStats
+var	    miningSettingsGpuPerDeviceStats
+var	opt_miningSettingsGpuProtocolDump
+var	    miningSettingsGpuProtocolDump
+var	opt_miningSettingsGpuSchedStart
+var	    miningSettingsGpuSchedStart
+var	opt_miningSettingsGpuSchedStop
+var	    miningSettingsGpuSchedStop
+var	opt_miningSettingsGpuSocksProxy
+var	    miningSettingsGpuSocksProxy
+var	opt_miningSettingsGpuShowCoinDiff
+var	    miningSettingsGpuShowCoinDiff
 //Output
 //cpu
 
@@ -662,6 +877,7 @@ var $deviceCpuStatsHashrateCore4;
 var $deviceCpuStatsHashrateCore5;
 var $deviceCpuStatsHashrateCore6;
 var $deviceCpuStatsHashrateCore7;
+
 
 //gpu
 var $deviceGpuInfoVendor;
@@ -931,8 +1147,13 @@ $('#miningSettingsCpuThreadsRange').on('change',function(){
 });
 $('#miningSettingsGpuThreadsRange').on('change',function(){
     var val = $(this).val();
-    $("#miningSettingsGpuThreadsNumber").text(val);
+    $("#miningSettingsGpuIntensity").text(val);
 });
+$('#miningSettingsGpuIntensityRange').on('change',function(){
+    var val = $(this).val();
+    $("#miningSettingsGpuIntensityNumber").text(val);
+});
+
 </script>
 </body>
 </html>

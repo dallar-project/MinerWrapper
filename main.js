@@ -432,15 +432,17 @@ ipcMain.on('startMining', function(e,data){
         if (data[0].opt_miningSettingsGpuSharesLimit.toString() == "true")
             options = options.concat(' --shares-limit ', data[0].miningSettingsGpuSharesLimit);
         if (data[0].opt_miningSettingsRetries.toString() == "true")
-         options = options.concat(' --retries ', data[0].miningSettingsRetries);
+            options = options.concat(' --retries ', data[0].miningSettingsRetries);
+         
+        //-x, --proxy=[PROTOCOL://]HOST[:PORT]  connect through a proxy
+        //
+        //there are more....
 
-            //-x, --proxy=[PROTOCOL://]HOST[:PORT]  connect through a proxy
-            //
-            //there are more....
+        //required
+        options = options.concat(' --no-color ');
     }
     if ( miningDevice == "GPU" && deviceGpuInfoVendor == 'AMD'){
         //AMD Settings go here
-        //here are some that should be implemented first
         
         options = options.concat(' --algorithm ', data[0].miningSettingsAlgoGPU);
 
@@ -456,61 +458,72 @@ ipcMain.on('startMining', function(e,data){
             options = options.concat(' --gpu-memclock ', data[0].miningSettingsGpuMemClock);//Set the GPU memory (over)clock in Mhz - one value for all or separate by commas for per card
         if (data[0].opt_miningSettingsGpuClock.toString() == "true")
             options = options.concat(' --gpu-engine ', data[0].miningSettingsGpuClock);//GPU engine (over)clock range in Mhz - one value, range and/or comma separated list (e.g. 850-900,900,750-850)
+        if (data[0].opt_miningSettingsGpuThreads.toString() == "true")
+            options = options.concat(' --gpu-threads ', data[0].miningSettingsGpuThreads);// Number of threads per GPU - one value or comma separated list (e.g. 1,2,1)
+        
+        if (data[0].opt_miningSettingsGpuWorksize.toString() == "true")    
+            options = options.concat(' --worksize ', data[0].miningSettingsGpuWorksize);//--worksize|-w <arg> Override detected optimal worksize - one value or comma separated list
+        if (data[0].opt_miningSettingsGpuGrsAddress.toString() == "true")    
+            options = options.concat(' --grs-address ', data[0].miningSettingsGpuGrsAddress);//--grs-address <arg> Set dallar target address when solo mining to dallard (mandatory)
 
-    options = options.concat(' --no-submit-stale ');
-        //--no-submit-stale
-        //--log-show-date
-        //-g
-        //--gpu-threads|-g <arg> Number of threads per GPU - one value or comma separated list (e.g. 1,2,1)
-        //-w
-        //--worksize|-w <arg> Override detected optimal worksize - one value or comma separated list
+        if (data[0].opt_miningSettingsGpuAutoFan.toString() == "true")    
+            options = options.concat(' --auto-fan  ', data[0].miningSettingsGpuAutoFan);//--auto-fan          Automatically adjust all GPU fan speeds to maintain a target temperature]
+        if (data[0].opt_miningSettingsGpuAutoGpu.toString() == "true")    
+            options = options.concat(' --auto-gpu ', data[0].miningSettingsGpuAutoGpu);//--auto-gpu          Automatically adjust all GPU engine clock speeds to maintain a target temperature
+            if (data[0].opt_miningSettingsGpuTempOverheat.toString() == "true") 
+                options = options.concat(' --temp-overheat ', data[0].miningSettingsGpuTempOverheat);//--temp-overheat <arg> Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85)
+            if (data[0].opt_miningSettingsGpuTempTarget.toString() == "true")    
+                options = options.concat(' --temp-target ', data[0].miningSettingsGpuTempTarget);//--temp-target <arg> Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75)
+            if (data[0].opt_miningSettingsGpuTempHysteresis.toString() == "true")    
+                options = options.concat(' --temp-hysteresis ', data[0].miningSettingsGpuTempHysteresis);//--temp-hysteresis <arg> Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3)
+            if (data[0].opt_miningSettingsGpuMemDiff.toString() == "true")    
+                options = options.concat(' --gpu-memdiff ', data[0].miningSettingsGpuMemDiff);//--gpu-memdiff <arg> Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode
+        if (data[0].opt_miningSettingsGpuBalance.toString() == "true")   
+            options = options.concat(' --balance ', data[0].miningSettingsGpuBalance);//--balance  Change multipool strategy from failover to even share balance
+        if (data[0].opt_miningSettingsGpuDevice.toString() == "true")    
+            options = options.concat(' --device ', data[0].miningSettingsGpuDevice);//--device|-d <arg>   Select device to use, one value, range and/or comma separated (e.g. 0-2,4) default: all
+        if (data[0].opt_miningSettingsGpuDyninterval.toString() == "true")    
+            options = options.concat(' --gpu-dyninterval ', data[0].miningSettingsGpuDyninterval);//--gpu-dyninterval <arg> Set the refresh interval in ms for GPUs using dynamic intensity (default: 7)
+        if (data[0].opt_miningSettingsGpuPlatform.toString() == "true")    
+            options = options.concat(' --gpu-platform ', data[0].miningSettingsGpuPlatform);//--gpu-platform <arg> Select OpenCL platform ID to use for GPU mining (default: -1)
+        if (data[0].opt_miningSettingsGpuFan.toString() == "true")    
+            options = options.concat(' --gpu-fan ', data[0].miningSettingsGpuFan);//--gpu-fan <arg>     GPU fan percentage range - one value, range and/or comma separated list (e.g. 0-85,85,65)
+        if (data[0].opt_miningSettingsGpuMap.toString() == "true")    
+            options = options.concat(' --gpu-map ', data[0].miningSettingsGpuMap);//--gpu-map <arg>     Map OpenCL to ADL device order manually, paired CSV (e.g. 1:0,2:1 maps OpenCL 1 to ADL 0, 2 to 1)
+        if (data[0].opt_miningSettingsGpuPowerTune.toString() == "true")    
+            options = options.concat(' --gpu-powertune ', data[0].miningSettingsGpuPowerTune);//--gpu-powertune <arg> Set the GPU powertune percentage - one value for all or separate by commas for per card
+        if (data[0].opt_miningSettingsGpuReorder.toString() == "true")    
+            options = options.concat(' --gpu-reorder ', data[0].miningSettingsGpuReorder);//--gpu-reorder       Attempt to reorder GPU devices according to PCI Bus ID
+        if (data[0].opt_miningSettingsGpuVddc.toString() == "true")    
+            options = options.concat(' --gpu-vddc ', data[0].miningSettingsGpuVddc);//--gpu-vddc <arg>    Set the GPU voltage in Volts - one value for all or separate by commas for per card
+        if (data[0].opt_miningSettingsGpuXintensity.toString() == "true")    
+            options = options.concat(' --xintensit ', data[0].miningSettingsGpuXintensity);//--xintensity|-X <arg> Shader based intensity of GPU scanning (1 to 9999), overridden --xintensity|-X and --rawintensity.
+        if (data[0].opt_miningSettingsGpuRawintensity.toString() == "true")    
+            options = options.concat(' --rawintensity ', data[0].miningSettingsGpuRawintensity);//--rawintensity <arg> Raw intensity of GPU scanning (1 to 2147483647), overrides --intensity|-I and --xintensity|-X.
+        if (data[0].opt_miningSettingsGpuNetDelay.toString() == "true")    
+            options = options.concat(' --net-delay ', data[0].miningSettingsGpuNetDelay);//--net-delay         Impose small delays in networking to not overload slow routers
+        if (data[0].opt_miningSettingsGpuPerDeviceStats.toString() == "true")    
+            options = options.concat(' --per-device-stat ', data[0].miningSettingsGpuPerDeviceStats);//--per-device-stats  Force verbose mode and output per-device statistics
+        if (data[0].opt_miningSettingsGpuProtocolDump.toString() == "true")    
+            options = options.concat(' --protocol-dump ', data[0].miningSettingsGpuProtocolDump);//--protocol-dump|-P  Verbose dump of protocol-level activities
+        if (data[0].opt_miningSettingsGpuSchedStart.toString() == "true")    
+            options = options.concat(' --sched-start ', data[0].miningSettingsGpuSchedStart);//--sched-start <arg> Set a time of day in HH:MM to start mining (a once off without a stop time)
+        if (data[0].opt_miningSettingsGpuSchedStop.toString() == "true")    
+            options = options.concat(' --sched-stop ', data[0].miningSettingsGpuSchedStop);//--sched-stop <arg>  Set a time of day in HH:MM to stop mining (will quit without a start time)
+        if (data[0].opt_miningSettingsGpuSocksProxy.toString() == "true")    
+            options = options.concat(' --socks-proxy ', data[0].miningSettingsGpuSocksProxy);//--socks-proxy <arg> Set socks4 proxy (host:port)        
+        if (data[0].opt_miningSettingsGpuShowCoinDiff.toString() == "true")    
+            options = options.concat(' --show-coindiff ', data[0].miningSettingsGpuShowCoinDiff);//--show-coindiff     Show coin difficulty rather than hash value of a share      
+        
 
-        //--grs-address <arg> Set dallar target address when solo mining to dallard (mandatory)
-        /*
-            
-            --auto-fan          Automatically adjust all GPU fan speeds to maintain a target temperature
-            --auto-gpu          Automatically adjust all GPU engine clock speeds to maintain a target temperature
-                --temp-overheat <arg> Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85)
-                --temp-target <arg> Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75)
-                --temp-hysteresis <arg> Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3)
-                --gpu-memdiff <arg> Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode
-                
-            --balance           Change multipool strategy from failover to even share balance
-            --device|-d <arg>   Select device to use, one value, range and/or comma separated (e.g. 0-2,4) default: all
-            --gpu-dyninterval <arg> Set the refresh interval in ms for GPUs using dynamic intensity (default: 7)
-            --gpu-platform <arg> Select OpenCL platform ID to use for GPU mining (default: -1)
-            --gpu-fan <arg>     GPU fan percentage range - one value, range and/or comma separated list (e.g. 0-85,85,65)
-            --gpu-map <arg>     Map OpenCL to ADL device order manually, paired CSV (e.g. 1:0,2:1 maps OpenCL 1 to ADL 0, 2 to 1)
-            --gpu-powertune <arg> Set the GPU powertune percentage - one value for all or separate by commas for per card
-            --gpu-reorder       Attempt to reorder GPU devices according to PCI Bus ID
-            --gpu-vddc <arg>    Set the GPU voltage in Volts - one value for all or separate by commas for per card
-            
-            --xintensity|-X <arg> Shader based intensity of GPU scanning (1 to 9999), overridden --xintensity|-X and --rawintensity.
-            --rawintensity <arg> Raw intensity of GPU scanning (1 to 2147483647), overrides --intensity|-I and --xintensity|-X.
-            
-            --net-delay         Impose small delays in networking to not overload slow routers
-            
-            --per-device-stats  Force verbose mode and output per-device statistics
+        //required
+        options = options.concat(' --no-submit-stale ');
+        options = options.concat(' --log-show-date '); //maybe
 
-            --protocol-dump|-P  Verbose dump of protocol-level activities
-
-            --sched-start <arg> Set a time of day in HH:MM to start mining (a once off without a stop time)
-            --sched-stop <arg>  Set a time of day in HH:MM to stop mining (will quit without a start time)
-            
-            --socks-proxy <arg> Set socks4 proxy (host:port)
-            --show-coindiff     Show coin difficulty rather than hash value of a share
-
-            
-        */
     }
 
 
-    
-    options = options.concat(' --no-color ');
-
-        console.log("options  =  " + options);
-    
-    
+    console.log("options  =  " + options);
 
     //async with cmd output data
     var dataCallback = function(data) {
@@ -525,7 +538,6 @@ ipcMain.on('startMining', function(e,data){
         // message = stdout with out timestamp
         if (message.search("CPU") !== -1){
             var cpuHash = sscanf(message.toString(),'CPU #%d: %f %s','core','hashRate','unit');
-
             deviceCpuStatsHashrateCore[cpuHash.core] = [cpuHash.hashRate, cpuHash.unit];
         }
         if (message.search("Stratum difficulty") !== -1){
@@ -638,8 +650,6 @@ ipcMain.on('stopMining', function(e){
         deviceCpuStatsHashrateCore[i] = ['', ''];
     }
 });
-
-
 
 // create menu template
 const mainMenuTemplate = [
