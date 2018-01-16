@@ -31,7 +31,8 @@ With the NPM packages:
 Developers:
 
  - SwiftCurse
-
+ - SkilledBubble
+ 
 To do:
 
 GET THE GUI TO LOOK BETTER!
