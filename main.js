@@ -37,29 +37,30 @@ var miningStatsStratumDiff= [{'stratum_diff':'','targetdiff':''}];
 var miningStatsPoolCpuAccepted= [{'accepted_count':'' , 'total_count':'' , 'sharediff':'' , 'hashrate':'', 'flag':'', 'solved':''}];
 var miningStatsPoolBlock = [{'algo_name':'', 'block_number':'', 'netinfo':''}]; 
 
+//output vars to HTML
 var deviceCpuInfoManufacturer= "";
 var deviceCpuInfoBrand= "";
 var deviceCpuInfoNumberCores= "";
 
 var deviceCpuStatsOverallTemp= "";
-var deviceCpuStatsTempCore0= "";
-var deviceCpuStatsTempCore1= "";
-var deviceCpuStatsTempCore2= "";
-var deviceCpuStatsTempCore3= "";
-var deviceCpuStatsTempCore4= "";
-var deviceCpuStatsTempCore5= "";
-var deviceCpuStatsTempCore6= "";
-var deviceCpuStatsTempCore7= "";
+var deviceCpuStatsTempCore0= "",        //prehaps use an array....
+ deviceCpuStatsTempCore1= "",
+ deviceCpuStatsTempCore2= "",
+ deviceCpuStatsTempCore3= "",
+ deviceCpuStatsTempCore4= "",
+ deviceCpuStatsTempCore5= "",
+ deviceCpuStatsTempCore6= "",
+ deviceCpuStatsTempCore7= "";
 
 var deviceCpuStatsOverallUsage= "";
-var deviceCpuStatsUsageCore0= "";
-var deviceCpuStatsUsageCore1= "";
-var deviceCpuStatsUsageCore2= "";
-var deviceCpuStatsUsageCore3= "";
-var deviceCpuStatsUsageCore4= "";
-var deviceCpuStatsUsageCore5= "";
-var deviceCpuStatsUsageCore6= "";
-var deviceCpuStatsUsageCore7= "";
+var deviceCpuStatsUsageCore0= "",
+ deviceCpuStatsUsageCore1= "",
+ deviceCpuStatsUsageCore2= "",
+ deviceCpuStatsUsageCore3= "",
+ deviceCpuStatsUsageCore4= "",
+ deviceCpuStatsUsageCore5= "",
+ deviceCpuStatsUsageCore6= "",
+ deviceCpuStatsUsageCore7= "";
 
 var deviceCpuStatsOverallHashrate= "";
 var deviceCpuStatsHashrateCore = [{'hashRate':'','unit':''},{'hashRate':'','unit':''},{'hashRate':'','unit':''},{'hashRate':'','unit':''},{'hashRate':'','unit':''},{'hashRate':'','unit':''},{'hashRate':'','unit':''},{'hashRate':'','unit':''}];

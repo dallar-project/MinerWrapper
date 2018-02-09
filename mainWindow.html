@@ -574,30 +574,30 @@
                             <td><input type="number" name ="miningSettingsGpuAutoGpu" value="" style="text-align:center"></td>
                             <td><div class="tooltip">&#65533 <span class="tooltiptext">Automatically adjust all GPU engine clock speeds to maintain a target temperature.</span></div></td>
                         </tr>
-                            <tr>
-                                <td><strong>Temp Overheat:</strong></td>
-                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempOverheat"></td>
-                                <td><input type="number" name ="miningSettingsGpuTempOverheat" value="" style="text-align:center"></td>
-                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85).</span></div></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Temp Target:</strong></td>
-                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempTarget"></td>
-                                <td><input type="number" name ="miningSettingsGpuTempTarget" value="" style="text-align:center"></td>
-                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75).</span></div></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Temp Hysteresis:</strong></td>
-                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempHysteresis"></td>
-                                <td><input type="number" name ="miningSettingsGpuTempHysteresis" value="" style="text-align:center"></td>
-                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3).</span></div></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Mem Diff:</strong></td>
-                                <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemDiff"></td>
-                                <td><input type="number" name ="miningSettingsGpuMemDiff" value="" style="text-align:center"></td>
-                                <td><div class="tooltip">&#65533 <span class="tooltiptext">Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode.</span></div></td>
-                            </tr>
+                                <tr>
+                                    <td><strong>Temp Overheat:</strong></td>
+                                    <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempOverheat"></td>
+                                    <td><input type="number" name ="miningSettingsGpuTempOverheat" value="" style="text-align:center"></td>
+                                    <td><div class="tooltip">&#65533 <span class="tooltiptext">Temperature which a device will be throttled at while automanaging fan and/or GPU, one value or comma separated list (default: 85).</span></div></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Temp Target:</strong></td>
+                                    <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempTarget"></td>
+                                    <td><input type="number" name ="miningSettingsGpuTempTarget" value="" style="text-align:center"></td>
+                                    <td><div class="tooltip">&#65533 <span class="tooltiptext">Temperature which a device should stay at while automanaging fan and/or GPU, one value or comma separated list (default: 75).</span></div></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Temp Hysteresis:</strong></td>
+                                    <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuTempHysteresis"></td>
+                                    <td><input type="number" name ="miningSettingsGpuTempHysteresis" value="" style="text-align:center"></td>
+                                    <td><div class="tooltip">&#65533 <span class="tooltiptext">Set how much the temperature can fluctuate outside limits when automanaging speeds (default: 3).</span></div></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mem Diff:</strong></td>
+                                    <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuMemDiff"></td>
+                                    <td><input type="number" name ="miningSettingsGpuMemDiff" value="" style="text-align:center"></td>
+                                    <td><div class="tooltip">&#65533 <span class="tooltiptext">Set a fixed difference in clock speed between the GPU and memory in auto-gpu mode.</span></div></td>
+                                </tr>
                         <tr>
                             <td><strong>Balance:</strong></td>
                             <td style="text-align:center; width:10px;"><input type="checkbox" name="opt_miningSettingsGpuBalance"></td>
@@ -850,33 +850,33 @@ var $deviceCpuInfoNumberCores;
 
 var $deviceCpuStatsOverallTemp;
 var $deviceCpuStatsTempCore0;
-var $deviceCpuStatsTempCore1;
-var $deviceCpuStatsTempCore2;
-var $deviceCpuStatsTempCore3;
-var $deviceCpuStatsTempCore4;
-var $deviceCpuStatsTempCore5;
-var $deviceCpuStatsTempCore6;
-var $deviceCpuStatsTempCore7;
+ $deviceCpuStatsTempCore1,
+ $deviceCpuStatsTempCore2,
+ $deviceCpuStatsTempCore3,
+ $deviceCpuStatsTempCore4,
+ $deviceCpuStatsTempCore5,
+ $deviceCpuStatsTempCore6,
+ $deviceCpuStatsTempCore7;
 
 var $deviceCpuStatsOverallUsage;
-var $deviceCpuStatsUsageCore0;
-var $deviceCpuStatsUsageCore1;
-var $deviceCpuStatsUsageCore2;
-var $deviceCpuStatsUsageCore3;
-var $deviceCpuStatsUsageCore4;
-var $deviceCpuStatsUsageCore5;
-var $deviceCpuStatsUsageCore6;
-var $deviceCpuStatsUsageCore7;
+var $deviceCpuStatsUsageCore0,
+ $deviceCpuStatsUsageCore1,
+ $deviceCpuStatsUsageCore2,
+ $deviceCpuStatsUsageCore3,
+ $deviceCpuStatsUsageCore4,
+ $deviceCpuStatsUsageCore5,
+ $deviceCpuStatsUsageCore6,
+ $deviceCpuStatsUsageCore7;
 
 var $deviceCpuStatsOverallHashrate;
-var $deviceCpuStatsHashrateCore0;
-var $deviceCpuStatsHashrateCore1;
-var $deviceCpuStatsHashrateCore2;
-var $deviceCpuStatsHashrateCore3;
-var $deviceCpuStatsHashrateCore4;
-var $deviceCpuStatsHashrateCore5;
-var $deviceCpuStatsHashrateCore6;
-var $deviceCpuStatsHashrateCore7;
+var $deviceCpuStatsHashrateCore0,
+ $deviceCpuStatsHashrateCore1,
+ $deviceCpuStatsHashrateCore2,
+ $deviceCpuStatsHashrateCore3,
+ $deviceCpuStatsHashrateCore4,
+ $deviceCpuStatsHashrateCore5,
+ $deviceCpuStatsHashrateCore6,
+ $deviceCpuStatsHashrateCore7;
 
 
 //gpu
@@ -965,9 +965,10 @@ ipcRenderer.on('updateHTML', function(e, data){
 	$("#deviceGpuInfoModel").text(data[0].deviceGpuInfoModel);
     $("#deviceGpuInfoVram").text(data[0].deviceGpuInfoVram);
 
+    // add output for
     //"deviceGpuStats":deviceGpuStats, //'core','clockSpeed','clockUnits','hashWattRate','hashWattRateUnits','unk1','unk2','temp','tempUnits','fan','fanSpeedPercent'
 
-//$("#deviceGpuStatsHashrate0").text(data[0].deviceGpuStats[data[0].deviceGpuStats.core]
+            //$("#deviceGpuStatsHashrate0").text(data[0].deviceGpuStats[data[0].deviceGpuStats.core]
 	$("#deviceGpuStatsOverallHashrate").text(data[0].deviceGpuStatsOverallHashrate);
 	$("#deviceGpuStatsHashrate0").text(data[0].deviceGpuStatsHashrate0[0]  + data[0].deviceGpuStatsHashrate0[1]);
 	    $("#deviceGpuStatsHashrate0").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStatsHashrate0[0]).toString() + "%, #0F0 100%)");
@@ -1001,7 +1002,6 @@ ipcRenderer.on('updateHTML', function(e, data){
     $("#deviceGpuStatsFan3").text(data[0].deviceGpuStats[3].fanSpeedPercent + '%');
 	    $("#deviceGpuStatsFan3").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceGpuStats[3].fanSpeedPercent).toString() + "%, #AAA 100%)");
 
-	
 	
 	$("#deviceCpuStatsOverallHashrate").text(data[0].deviceCpuStatsOverallHashrate);
 	    $("#deviceCpuStatsOverallHashrate").attr("style","background: linear-gradient(#FFF  " + (100-data[0].deviceCpuStatsOverallHashRate).toString() + "%, #00F 100%)");
@@ -1081,7 +1081,61 @@ function sendVariables(){
 		"opt_miningSettingsGpuTimeLimit":		$('input[name=opt_miningSettingsGpuTimeLimit]').is(':checked'),
 		"miningSettingsGpuTimeLimit":				$('input[name=miningSettingsGpuTimeLimit]').val(),
 		"opt_miningSettingsGpuSharesLimit":		$('input[name=opt_miningSettingsGpuSharesLimit]').is(':checked'),
-		"miningSettingsGpuSharesLimit":				$('input[name=miningSettingsGpuSharesLimit]').val()
+        "miningSettingsGpuSharesLimit":				$('input[name=miningSettingsGpuSharesLimit]').val(),
+        
+//AMD
+	"opt_miningSettingsGpuWorksize":			$('input[name=opt_miningSettingsGpuWorksize]').is(':checked'),
+	   "miningSettingsGpuWorksize":			        $('input[name=miningSettingsGpuWorksize]').val(),
+	"opt_miningSettingsGpuGrsAddress":			$('input[name=opt_miningSettingsGpuGrsAddress]').is(':checked'),
+	    "miningSettingsGpuGrsAddress":			    $('input[name=miningSettingsGpuGrsAddress]').val(),
+	"opt_miningSettingsGpuAutoFan":			    $('input[name=opt_miningSettingsGpuAutoFan]').is(':checked'),
+	"miningSettingsGpuAutoFan"  :			        $('input[name=miningSettingsGpuAutoFan]').val(),
+	"opt_miningSettingsGpuAutoGpu"  :			$('input[name=opt_miningSettingsGpuAutoGpu]').is(':checked'),
+	    "miningSettingsGpuAutoGpu"  :			    $('input[name=miningSettingsGpuAutoGpu]').val(),
+	    "opt_miningSettingsGpuTempOverheat":	    $('input[name=opt_miningSettingsGpuTempOverheat]').is(':checked'),
+	        "miningSettingsGpuTempOverheat":		    $('input[name=miningSettingsGpuTempOverheat]').val(),
+	    "opt_miningSettingsGpuTempTarget":			$('input[name=opt_miningSettingsGpuTempTarget]').is(':checked'),
+	        "miningSettingsGpuTempTarget":			    $('input[name=miningSettingsGpuTempTarget]').val(),
+	    "opt_miningSettingsGpuTempHysteresis":		$('input[name=opt_miningSettingsGpuTempHysteresis]').is(':checked'),
+	        "miningSettingsGpuTempHysteresis":			$('input[name=miningSettingsGpuTempHysteresis]').val(),
+	    "opt_miningSettingsGpuMemDiff":			    $('input[name=opt_miningSettingsGpuMemDiff]').is(':checked'),
+	        "miningSettingsGpuMemDiff":			        $('input[name=miningSettingsGpuMemDiff]').val(),
+	"opt_miningSettingsGpuBalance" :			$('input[name=opt_miningSettingsGpuBalance]').is(':checked'),
+	    "miningSettingsGpuBalance":			        $('input[name=miningSettingsGpuBalance]').val(),
+	"opt_miningSettingsGpuDevice":			    $('input[name=opt_miningSettingsGpuDevice]').is(':checked'),
+	    "miningSettingsGpuDevice":			        $('input[name=miningSettingsGpuDevice]').val(),
+	"opt_miningSettingsGpuDyninterval":			$('input[name=opt_miningSettingsGpuDyninterval]').is(':checked'),
+	    "miningSettingsGpuDyninterval":			    $('input[name=miningSettingsGpuDyninterval]').val(),
+	"opt_miningSettingsGpuPlatform":			$('input[name=opt_miningSettingsGpuPlatform]').is(':checked'),
+	    "miningSettingsGpuPlatform":			    $('input[name=miningSettingsGpuPlatform]').val(),
+	"opt_miningSettingsGpuFan":			        $('input[name=opt_miningSettingsGpuFan]').is(':checked'),
+	    "miningSettingsGpuFan":			            $('input[name=miningSettingsGpuFan]').val(),
+	"opt_miningSettingsGpuMap":			        $('input[name=opt_miningSettingsGpuMap]').is(':checked'),
+	    "miningSettingsGpuMap":			            $('input[name=miningSettingsGpuMap]').val(),
+	"opt_miningSettingsGpuPowerTune":			$('input[name=opt_miningSettingsGpuPowerTune]').is(':checked'),
+	    "miningSettingsGpuPowerTune":			    $('input[name=miningSettingsGpuPowerTune]').val(),
+	"opt_miningSettingsGpuReorder":			    $('input[name=opt_miningSettingsGpuReorder]').is(':checked'),
+	    "miningSettingsGpuReorder":			        $('input[name=miningSettingsGpuReorder]').val(),
+	"opt_miningSettingsGpuVddc":			    $('input[name=opt_miningSettingsGpuVddc]').is(':checked'),
+	    "miningSettingsGpuVddc":			        $('input[name=miningSettingsGpuVddc]').val(),
+	"opt_miningSettingsGpuXintensity":			$('input[name=opt_miningSettingsGpuXintensity]').is(':checked'),
+	    "miningSettingsGpuXintensity":			    $('input[name=miningSettingsGpuXintensity]').val(),
+	"opt_miningSettingsGpuRawintensity":		$('input[name=opt_miningSettingsGpuRawintensity]').is(':checked'),
+	    "miningSettingsGpuRawintensity":			$('input[name=miningSettingsGpuRawintensity]').val(),
+	"opt_miningSettingsGpuNetDelay":			$('input[name=opt_miningSettingsGpuNetDelay]').is(':checked'),
+	    "miningSettingsGpuNetDelay":			    $('input[name=miningSettingsGpuNetDelay]').val(),
+	"opt_miningSettingsGpuPerDeviceStats":		$('input[name=opt_miningSettingsGpuPerDeviceStats]').is(':checked'),
+	    "miningSettingsGpuPerDeviceStats":			$('input[name=miningSettingsGpuPerDeviceStats]').val(),
+	"opt_miningSettingsGpuProtocolDump":		$('input[name=opt_miningSettingsGpuProtocolDump]').is(':checked'),
+	    "miningSettingsGpuProtocolDump":			$('input[name=miningSettingsGpuProtocolDump]').val(),
+	"opt_miningSettingsGpuSchedStart":			$('input[name=opt_miningSettingsGpuSchedStart]').is(':checked'),
+	    "miningSettingsGpuSchedStart":			    $('input[name=miningSettingsGpuSchedStart]').val(),
+	"opt_miningSettingsGpuSchedStop":			$('input[name=opt_miningSettingsGpuSchedStop]').is(':checked'),
+	    "miningSettingsGpuSchedStop":			    $('input[name=miningSettingsGpuSchedStop]').val(),
+	"opt_miningSettingsGpuSocksProxy":			$('input[name=opt_miningSettingsGpuSocksProxy]').is(':checked'),
+	    "miningSettingsGpuSocksProxy":			    $('input[name=miningSettingsGpuSocksProxy]').val(),
+	"opt_miningSettingsGpuShowCoinDiff":		$('input[name=opt_miningSettingsGpuShowCoinDiff]').is(':checked'),
+	    "miningSettingsGpuShowCoinDiff":			$('input[name=miningSettingsGpuShowCoinDiff]').val()
 		}
     ];
     console.log(miningSettings);
